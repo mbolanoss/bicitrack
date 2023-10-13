@@ -1,13 +1,11 @@
 import 'package:bicitrack/screens/home_screen.dart';
+import 'package:bicitrack/screens/test_screen.dart';
+import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:provider/provider.dart';
 
 void main() {
-  runApp(MultiProvider(
-    // Aqui van todos los providers que se vayan a usar
-    providers: [],
-    child: const MyApp(),
-  ));
+  // Usar un MultiProvider para acceder a los providers desde cualquier parte
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
@@ -16,15 +14,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
-      theme: ThemeData(
-        colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-        useMaterial3: true,
-      ),
-      initialRoute: '/',
+      theme: lightTheme,
+      // Cambiar ruta inicial segun sea necesario
+      initialRoute: '/test',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
+        '/test': (context) => const TestScreen(),
       },
     );
   }
