@@ -4,6 +4,7 @@ import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'screens/login_screen.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -29,11 +30,12 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/test',
+      initialRoute: '/login',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
         '/test': (context) => const TestScreen(),
+        '/login': (context) => const LoginScreen(),
       },
     );
   }
