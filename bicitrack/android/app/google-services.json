@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "111328080618",
+    "project_id": "bicitrack-de168",
+    "storage_bucket": "bicitrack-de168.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:111328080618:android:3068d14d4678014f0ddd93",
+        "android_client_info": {
+          "package_name": "com.example.bicitrack"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCq42MYfaeWmDOHZYHEML4DLrpVOYkPDiw"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -2,8 +2,19 @@ import 'package:bicitrack/screens/home_screen.dart';
 import 'package:bicitrack/screens/test_screen.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'firebase_options.dart';
 
-void main() {
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp(
+    options: DefaultFirebaseOptions.currentPlatform,
+  );
+
+  // FirebaseUIAuth.configureProviders([
+  //   EmailAuthProvider(),
+  // ]);
+
   // Usar un MultiProvider para acceder a los providers desde cualquier parte
   runApp(const MyApp());
 }
