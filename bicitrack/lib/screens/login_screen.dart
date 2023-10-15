@@ -45,15 +45,17 @@ class LoginScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         // Usuario
-                        const FormInput(
+                        FormInput(
                           icon: Icons.person,
                           hint: 'Usuario',
+                          isPass: false,
                         ),
                         SizedBox(height: screenSize.height * 0.03),
                         // Contrasena
-                        const FormInput(
+                        FormInput(
                           icon: Icons.key,
                           hint: 'Contraseña',
+                          isPass: true,
                         ),
                       ],
                     ),
