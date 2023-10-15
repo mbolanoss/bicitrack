@@ -1,15 +1,18 @@
+import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
 class FormInput extends StatefulWidget {
   final IconData icon;
   final String hint;
   final bool isPass;
+  final String? Function(String?) validator;
 
-  FormInput({
+  const FormInput({
     super.key,
     required this.icon,
     required this.hint,
     required this.isPass,
+    required this.validator,
   });
 
   @override
@@ -27,6 +30,7 @@ class _FormInputState extends State<FormInput> {
         const SizedBox(width: 10),
         Flexible(
           child: TextFormField(
+            cursorColor: seablue,
             obscureText: hasVisibilty,
             decoration: InputDecoration(
               hintText: widget.hint,
@@ -46,6 +50,7 @@ class _FormInputState extends State<FormInput> {
                     )
                   : null,
             ),
+            validator: widget.validator,
           ),
         ),
       ],

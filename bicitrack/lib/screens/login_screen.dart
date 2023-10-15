@@ -5,7 +5,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import '../widgets/form_input.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
+  LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -41,34 +41,8 @@ class LoginScreen extends StatelessWidget {
                   ),
                   SizedBox(height: screenSize.height * 0.02),
                   // Formulario
-                  Form(
-                    child: Column(
-                      children: [
-                        // Usuario
-                        FormInput(
-                          icon: Icons.person,
-                          hint: 'Usuario',
-                          isPass: false,
-                        ),
-                        SizedBox(height: screenSize.height * 0.03),
-                        // Contrasena
-                        FormInput(
-                          icon: Icons.key,
-                          hint: 'Contraseña',
-                          isPass: true,
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: screenSize.height * 0.06),
-                  // Boton iniciar sesion
-                  ElevatedButton(
-                    onPressed: () {},
-                    child: Text(
-                      'Iniciar sesión',
-                      style: textTheme.labelLarge,
-                    ),
-                  ),
+                  LoginForm(),
+
                   SizedBox(height: screenSize.height * 0.02),
                   // Boton iniciar sesion Google
                   ElevatedButton(
@@ -105,6 +79,63 @@ class LoginScreen extends StatelessWidget {
             ),
           ),
         ),
+      ),
+    );
+  }
+}
+
+class LoginForm extends StatelessWidget {
+  static final formKey = GlobalKey<FormState>();
+
+  LoginForm({
+    super.key,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
+    return Form(
+      key: formKey,
+      child: Column(
+        children: [
+          // Usuario
+          FormInput(
+            icon: Icons.person,
+            hint: 'Usuario',
+            isPass: false,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Ingrese un usuario';
+              }
+            },
+          ),
+          SizedBox(height: screenSize.height * 0.03),
+          // Contrasena
+          FormInput(
+            icon: Icons.key,
+            hint: 'Contraseña',
+            isPass: true,
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Ingrese un usuario';
+              }
+            },
+          ),
+          SizedBox(height: screenSize.height * 0.06),
+          // Boton iniciar sesion
+          ElevatedButton(
+            onPressed: () {
+              if (formKey.currentState!.validate()) {
+                print('SUCCESS');
+              }
+            },
+            child: Text(
+              'Iniciar sesión',
+              style: textTheme.labelLarge,
+            ),
+          ),
+        ],
       ),
     );
   }
