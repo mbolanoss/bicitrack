@@ -9,83 +9,97 @@ class LoginScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final size = MediaQuery.of(context).size;
+    final screenSize = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     final elevatedButtonTheme = Theme.of(context).elevatedButtonTheme;
 
     return SafeArea(
       child: Scaffold(
-        body: Container(
-          // Margen de toda la pantalla
-          margin: EdgeInsets.symmetric(
-            vertical: size.height * 0.07,
-            horizontal: size.width * 0.13,
-          ),
-          child: Center(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                // Logo REEMPLAZAR POR IMAGEN
-                Container(
-                  height: size.height * 0.25,
-                  width: size.height * 0.25,
-                  color: Colors.black26,
-                ),
-                SizedBox(
-                  height: size.height * 0.04,
-                ),
-                Text(
-                  'BiciTrack',
-                  style: textTheme.displayLarge,
-                ),
-                SizedBox(height: size.height * 0.04),
-                // Formulario
-                Form(
-                  child: Column(
-                    children: [
-                      const FormInput(icon: Icons.person),
-                      SizedBox(height: size.height * 0.03),
-                      const FormInput(icon: Icons.key),
-                    ],
+        body: SingleChildScrollView(
+          child: Container(
+            // Margen de toda la pantalla
+            margin: EdgeInsets.symmetric(
+              vertical: screenSize.height * 0.07,
+              horizontal: screenSize.width * 0.1,
+            ),
+            child: Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  // Logo REEMPLAZAR POR IMAGEN
+                  Container(
+                    height: screenSize.height * 0.25,
+                    width: screenSize.height * 0.25,
+                    color: Colors.black26,
                   ),
-                ),
-                SizedBox(height: size.height * 0.04),
-                // Boton iniciar sesion
-                ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    'Iniciar sesión',
-                    style: textTheme.labelLarge,
+                  SizedBox(
+                    height: screenSize.height * 0.04,
                   ),
-                ),
-                SizedBox(height: size.height * 0.04),
-                // Boton iniciar sesion Google
-                ElevatedButton(
-                  onPressed: () {},
-                  style: elevatedButtonTheme.style!.copyWith(
-                    backgroundColor: MaterialStateProperty.all(Colors.white),
+                  Text(
+                    'BiciTrack',
+                    style: textTheme.displayLarge,
                   ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const FaIcon(
-                        FontAwesomeIcons.google,
-                        color: purple,
-                        size: 30,
-                      ),
-                      SizedBox(width: size.width * 0.03),
-                      Text(
-                        'Inicia sesión con Google',
-                        style: textTheme.labelMedium!.copyWith(
-                          color: Colors.black,
-                          fontWeight: FontWeight.bold,
+                  SizedBox(height: screenSize.height * 0.02),
+                  // Formulario
+                  Form(
+                    child: Column(
+                      children: [
+                        // Usuario
+                        const FormInput(
+                          icon: Icons.person,
+                          hint: 'Usuario',
                         ),
-                      ),
-                    ],
+                        SizedBox(height: screenSize.height * 0.03),
+                        // Contrasena
+                        const FormInput(
+                          icon: Icons.key,
+                          hint: 'Contraseña',
+                        ),
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                  SizedBox(height: screenSize.height * 0.06),
+                  // Boton iniciar sesion
+                  ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      'Iniciar sesión',
+                      style: textTheme.labelLarge,
+                    ),
+                  ),
+                  SizedBox(height: screenSize.height * 0.02),
+                  // Boton iniciar sesion Google
+                  ElevatedButton(
+                    onPressed: () {},
+                    style: elevatedButtonTheme.style!.copyWith(
+                      backgroundColor: MaterialStateProperty.all(Colors.white),
+                      padding: MaterialStateProperty.all(
+                        EdgeInsets.all(12),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const FaIcon(
+                          FontAwesomeIcons.google,
+                          color: purple,
+                          size: 30,
+                        ),
+                        SizedBox(width: screenSize.width * 0.03),
+                        Text(
+                          'Inicia sesión con Google',
+                          style: textTheme.labelLarge!.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
