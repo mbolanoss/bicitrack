@@ -10,7 +10,9 @@ const purple = Color(0xFF52154E);
 ThemeData lightTheme = ThemeData(
   useMaterial3: true,
 
-  colorScheme: ColorScheme.light().copyWith(background: cream),
+  colorScheme: const ColorScheme.light().copyWith(
+    background: cream,
+  ),
 
   // Botones flotantes
   floatingActionButtonTheme: const FloatingActionButtonThemeData(
@@ -53,6 +55,43 @@ ThemeData lightTheme = ThemeData(
       fontWeight: FontWeight.bold,
       color: Colors.white,
       fontSize: 32,
+    ),
+    // Text inputs
+    bodyLarge: GoogleFonts.nunito(
+      fontWeight: FontWeight.bold,
+      color: Colors.black,
+      fontSize: 22,
+    ),
+  ),
+
+  // Text inputs
+  inputDecorationTheme: const InputDecorationTheme(
+    hintStyle: TextStyle(
+      color: seablue,
+      fontSize: 22,
+      fontWeight: FontWeight.w600,
+    ),
+    errorStyle: TextStyle(
+      color: red,
+      fontSize: 16,
+    ),
+    enabledBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        width: 3,
+        color: seablue,
+      ),
+    ),
+    focusedBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        width: 3,
+        color: green,
+      ),
+    ),
+    errorBorder: UnderlineInputBorder(
+      borderSide: BorderSide(
+        width: 3,
+        color: red,
+      ),
     ),
   ),
 );
