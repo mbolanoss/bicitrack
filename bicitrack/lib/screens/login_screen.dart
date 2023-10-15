@@ -102,11 +102,17 @@ class LoginForm extends StatelessWidget {
           // Usuario
           FormInput(
             icon: Icons.person,
-            hint: 'Usuario',
+            hint: 'Correo electrónico',
             isPass: false,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Ingrese un usuario';
+                return 'Ingrese un correo electrónico';
+              }
+              bool emailValid = RegExp(
+                      r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                  .hasMatch(value);
+              if (!emailValid) {
+                return 'Correo electrónico inválido';
               }
             },
           ),
@@ -118,7 +124,7 @@ class LoginForm extends StatelessWidget {
             isPass: true,
             validator: (value) {
               if (value!.isEmpty) {
-                return 'Ingrese un usuario';
+                return 'Ingrese una contraseña';
               }
             },
           ),
