@@ -1,11 +1,11 @@
 import 'package:bicitrack/models/bike.dart';
 
 class BikeOwner {
-  final String name;
-  final int idCard;
-  final int phoneNumber;
-  final String email;
-  final List<Bike> bikes;
+  String? name;
+  int? idCard;
+  int? phoneNumber;
+  String? email;
+  List<Bike>? bikes;
 
   BikeOwner({
     required this.name,
@@ -15,13 +15,20 @@ class BikeOwner {
     required this.bikes,
   });
 
+  BikeOwner.fromJSON(Map<String, dynamic> json) {
+    name = json['name'];
+    idCard = json['idCard'];
+    phoneNumber = json['phoneNumber'];
+    email = json['email'];
+    bikes = [];
+  }
+
   static Map<String, dynamic> toJSON(BikeOwner owner) {
     return {
       'name': owner.name,
       'idCard': owner.idCard,
       'phoneNumber': owner.phoneNumber,
       'email': owner.email,
-      'bikes': [for (Bike bike in owner.bikes) Bike.toJSON(bike)],
     };
   }
 }

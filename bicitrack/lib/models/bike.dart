@@ -1,11 +1,13 @@
-import 'package:bicitrack/models/bike_owner.dart';
-
 class Bike {
-  final String serialNumber;
+  String? serialNumber;
 
   Bike({
     required this.serialNumber,
   });
+
+  Bike.fromJSON(Map<String, dynamic> json) {
+    serialNumber = json['serialNumber'];
+  }
 
   static Map<String, dynamic> toJSON(Bike bike) {
     return {

@@ -40,7 +40,7 @@ class MyApp extends StatelessWidget {
         '/test': (context) => const TestScreen(),
         '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
-        '/register_bike_owner': (context) => const RegisterBikeOwnerScreen(),
+        '/register_bike_owner': (context) => RegisterBikeOwnerScreen(),
         '/register_bike': (context) => const RegisterBikeScreen(),
       },
     );

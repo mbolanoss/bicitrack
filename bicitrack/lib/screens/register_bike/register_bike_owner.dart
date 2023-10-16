@@ -1,10 +1,55 @@
+import 'package:bicitrack/models/bike_owner.dart';
+import 'package:bicitrack/services/firestore_service.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
 import '../../widgets/form_input.dart';
 
 class RegisterBikeOwnerScreen extends StatelessWidget {
-  const RegisterBikeOwnerScreen({super.key});
+  final firestoreService = FirestoreService();
+
+  RegisterBikeOwnerScreen({super.key});
+
+  void showOwnersDialog(BuildContext context, List<BikeOwner> owners) {
+    final textTheme = Theme.of(context).textTheme;
+
+    showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            title: Text(
+              'Dueños registrados',
+              style: textTheme.displayMedium,
+              textAlign: TextAlign.center,
+            ),
+            content: SizedBox(
+              width: double.maxFinite,
+              child: ListView.separated(
+                shrinkWrap: true,
+                itemCount: owners.length,
+                separatorBuilder: (_, __) {
+                  return Divider(
+                    color: Colors.black54,
+                    thickness: 3,
+                  );
+                },
+                itemBuilder: (_, index) {
+                  return GestureDetector(
+                    onTap: () {},
+                    child: ListTile(
+                      title: Text(
+                        owners[index].name!,
+                        style: textTheme.displaySmall,
+                        textAlign: TextAlign.start,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          );
+        });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +76,7 @@ class RegisterBikeOwnerScreen extends StatelessWidget {
           child: Container(
             // Margen de toda la pantalla
             margin: EdgeInsets.symmetric(
-              vertical: screenSize.height * 0.05,
+              vertical: screenSize.height * 0.01,
               horizontal: screenSize.width * 0.13,
             ),
             child: Center(
@@ -43,6 +88,28 @@ class RegisterBikeOwnerScreen extends StatelessWidget {
                     style: textTheme.displayMedium,
                   ),
                   SizedBox(height: screenSize.height * 0.01),
+                  // Cargar dueño
+                  ElevatedButton(
+                    onPressed: () {
+                      firestoreService
+                          .getAllBikeOwners()
+                          .then((owners) => showOwnersDialog(context, owners));
+                    },
+                    style: elevatedButtonTheme.style!.copyWith(
+                      backgroundColor: MaterialStateProperty.all(purple),
+                      padding: MaterialStateProperty.all(
+                        const EdgeInsets.all(10),
+                      ),
+                    ),
+                    child: Text(
+                      'Cargar dueño',
+                      style: textTheme.labelLarge!.copyWith(
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                  ),
                   // Foto de usuario
                   Stack(
                     alignment: AlignmentDirectional.bottomEnd,
@@ -207,7 +274,7 @@ class RegisterBikeOwnerForm extends StatelessWidget {
               }
             },
           ),
-          SizedBox(height: screenSize.height * 0.05),
+          SizedBox(height: screenSize.height * 0.03),
           // Boton continuar
           ElevatedButton(
             onPressed: () {
