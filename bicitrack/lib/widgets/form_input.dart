@@ -1,3 +1,5 @@
+import 'package:bicitrack/screens/login_screen.dart';
+import 'package:bicitrack/services/login_service.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
@@ -6,6 +8,7 @@ class FormInput extends StatefulWidget {
   final String hint;
   final bool isPass;
   final String? Function(String?) validator;
+  final TextEditingController controller;
 
   const FormInput({
     super.key,
@@ -13,6 +16,7 @@ class FormInput extends StatefulWidget {
     required this.hint,
     required this.isPass,
     required this.validator,
+    required this.controller,
   });
 
   @override
@@ -30,6 +34,7 @@ class _FormInputState extends State<FormInput> {
         const SizedBox(width: 10),
         Flexible(
           child: TextFormField(
+            controller: widget.controller,
             cursorColor: seablue,
             obscureText: hasVisibilty,
             decoration: InputDecoration(

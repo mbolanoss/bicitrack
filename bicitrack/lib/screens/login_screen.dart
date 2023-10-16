@@ -1,7 +1,9 @@
 import 'package:bicitrack/utilities/custom_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
+import '../services/login_service.dart';
 import '../widgets/form_input.dart';
 
 class LoginScreen extends StatelessWidget {
@@ -50,7 +52,7 @@ class LoginScreen extends StatelessWidget {
                     style: elevatedButtonTheme.style!.copyWith(
                       backgroundColor: MaterialStateProperty.all(Colors.white),
                       padding: MaterialStateProperty.all(
-                        EdgeInsets.all(12),
+                        const EdgeInsets.all(12),
                       ),
                     ),
                     child: Row(
@@ -86,10 +88,53 @@ class LoginScreen extends StatelessWidget {
 
 class LoginForm extends StatelessWidget {
   static final formKey = GlobalKey<FormState>();
+  static final emailFieldController = TextEditingController();
+  static final passFieldController = TextEditingController();
+  final loginService = LoginService();
 
   LoginForm({
     super.key,
   });
+
+  Future<void> handleLogin(BuildContext context) async {
+    final textTheme = Theme.of(context).textTheme;
+
+    try {
+      await loginService.signInWithEmailAndPassword(
+        email: emailFieldController.text,
+        password: passFieldController.text,
+      );
+      print('LOGGED IN');
+    } on FirebaseAuthException {
+      showDialog(
+        context: context,
+        builder: (_) {
+          return AlertDialog(
+            backgroundColor: red,
+            title: Container(
+              padding: const EdgeInsets.all(15),
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.all(
+                  Radius.circular(20),
+                ),
+              ),
+              child: Text(
+                'Error al iniciar sesión',
+                style: textTheme.displayMedium,
+                textAlign: TextAlign.center,
+              ),
+            ),
+            content: Text(
+              'Por favor ingrese correctamente sus credenciales',
+              style: textTheme.displaySmall,
+              textAlign: TextAlign.center,
+            ),
+          );
+        },
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -99,8 +144,9 @@ class LoginForm extends StatelessWidget {
       key: formKey,
       child: Column(
         children: [
-          // Usuario
+          // Email
           FormInput(
+            controller: emailFieldController,
             icon: Icons.person,
             hint: 'Correo electrónico',
             isPass: false,
@@ -119,6 +165,7 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: screenSize.height * 0.03),
           // Contrasena
           FormInput(
+            controller: passFieldController,
             icon: Icons.key,
             hint: 'Contraseña',
             isPass: true,
@@ -131,9 +178,9 @@ class LoginForm extends StatelessWidget {
           SizedBox(height: screenSize.height * 0.06),
           // Boton iniciar sesion
           ElevatedButton(
-            onPressed: () {
+            onPressed: () async {
               if (formKey.currentState!.validate()) {
-                print('SUCCESS');
+                await handleLogin(context);
               }
             },
             child: Text(
