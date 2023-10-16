@@ -12,7 +12,20 @@
           "package_name": "com.example.bicitrack"
         }
       },
-      "oauth_client": [],
+      "oauth_client": [
+        {
+          "client_id": "111328080618-5arin9nb6mc6t5pddqvdiijs194qvv60.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.bicitrack",
+            "certificate_hash": "298bf86f31447d2f84ffab6e863d1379ade4c717"
+          }
+        },
+        {
+          "client_id": "111328080618-j83fufffivumjfrcvmktp8plploqqppl.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
       "api_key": [
         {
           "current_key": "AIzaSyCq42MYfaeWmDOHZYHEML4DLrpVOYkPDiw"
@@ -20,7 +33,19 @@
       ],
       "services": {
         "appinvite_service": {
-          "other_platform_oauth_client": []
+          "other_platform_oauth_client": [
+            {
+              "client_id": "111328080618-j83fufffivumjfrcvmktp8plploqqppl.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "111328080618-5q1ojdhhtm93gptf8jnv0ki221unq6m3.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.bicitrack"
+              }
+            }
+          ]
         }
       }
     }
