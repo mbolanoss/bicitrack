@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen.dart';
+import 'screens/register_bike/register_bike.dart';
 import 'screens/wrapper.dart';
 
 void main() async {
@@ -32,14 +33,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/register_bike',
+      initialRoute: '/register_bike_user',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
         '/test': (context) => const TestScreen(),
         '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
-        '/register_bike': (context) => const RegisterBikeUser(),
+        '/register_bike_user': (context) => const RegisterBikeUser(),
+        '/register_bike': (context) => const RegisterBike(),
       },
     );
   }

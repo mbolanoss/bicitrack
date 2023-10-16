@@ -1,6 +1,5 @@
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 import '../../widgets/form_input.dart';
 
@@ -18,9 +17,14 @@ class RegisterBikeUser extends StatelessWidget {
         appBar: AppBar(
           backgroundColor: cream,
           leading: IconButton(
+            style: IconButton.styleFrom(
+              splashFactory: NoSplash.splashFactory,
+            ),
             icon: const Icon(Icons.keyboard_arrow_left_sharp),
             iconSize: 60,
-            onPressed: () {},
+            onPressed: () {
+              Navigator.of(context).pushReplacementNamed('/');
+            },
           ),
         ),
         body: SingleChildScrollView(
@@ -73,7 +77,9 @@ class RegisterBikeUser extends StatelessWidget {
                   SizedBox(height: screenSize.height * 0.03),
                   // Boton cancelar
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.of(context).pushReplacementNamed('/');
+                    },
                     style: elevatedButtonTheme.style!.copyWith(
                         backgroundColor:
                             MaterialStateProperty.all(Colors.white)),
@@ -204,7 +210,9 @@ class RegisterUserForm extends StatelessWidget {
           SizedBox(height: screenSize.height * 0.05),
           // Boton continuar
           ElevatedButton(
-            onPressed: () {},
+            onPressed: () {
+              Navigator.pushNamed(context, '/register_bike');
+            },
             child: Text(
               'Continuar',
               style: textTheme.labelLarge,
