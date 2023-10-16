@@ -102,10 +102,10 @@ class RegisterBike extends StatelessWidget {
 }
 
 class RegisterBikeForm extends StatelessWidget {
-  static final formKey = GlobalKey<FormState>();
+  static var formKey = GlobalKey<FormState>();
   static final serialFieldController = TextEditingController();
 
-  const RegisterBikeForm({
+  RegisterBikeForm({
     super.key,
   });
 

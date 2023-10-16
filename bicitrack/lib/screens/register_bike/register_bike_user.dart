@@ -72,7 +72,7 @@ class RegisterBikeUser extends StatelessWidget {
                   ),
                   SizedBox(height: screenSize.height * 0.01),
                   // Formulario
-                  const RegisterUserForm(),
+                  RegisterUserForm(),
 
                   SizedBox(height: screenSize.height * 0.03),
                   // Boton cancelar
@@ -101,13 +101,13 @@ class RegisterBikeUser extends StatelessWidget {
 }
 
 class RegisterUserForm extends StatelessWidget {
-  static final formKey = GlobalKey<FormState>();
+  static var formKey = GlobalKey<FormState>();
   static final userFieldController = TextEditingController();
   static final idFieldController = TextEditingController();
   static final phoneFieldController = TextEditingController();
   static final emailFieldController = TextEditingController();
 
-  const RegisterUserForm({
+  RegisterUserForm({
     super.key,
   });
 
