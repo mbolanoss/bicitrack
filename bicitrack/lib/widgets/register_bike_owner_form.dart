@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../models/bike_owner.dart';
+import '../screens/register_bike/register_bike.dart';
 import '../services/firestore_service.dart';
 import '../utilities/custom_theme.dart';
 import 'form_input.dart';
 
 class RegisterBikeOwnerForm extends StatelessWidget {
   static var formKey = GlobalKey<FormState>();
-  static final userFieldController = TextEditingController();
+  static final nameFieldController = TextEditingController();
   static final idFieldController = TextEditingController();
   static final phoneFieldController = TextEditingController();
   static final emailFieldController = TextEditingController();
@@ -16,46 +17,6 @@ class RegisterBikeOwnerForm extends StatelessWidget {
   RegisterBikeOwnerForm({
     super.key,
   });
-
-  // Future<void> handleLogin(BuildContext context) async {
-  //   final textTheme = Theme.of(context).textTheme;
-  //   try {
-  //     await loginService.signInWithEmailAndPassword(
-  //       email: emailFieldController.text,
-  //       password: passFieldController.text,
-  //     );
-  //     emailFieldController.clear();
-  //     passFieldController.clear();
-  //   } on FirebaseAuthException {
-  //     showDialog(
-  //       context: context,
-  //       builder: (_) {
-  //         return AlertDialog(
-  //           backgroundColor: red,
-  //           title: Container(
-  //             padding: const EdgeInsets.all(15),
-  //             decoration: const BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.all(
-  //                 Radius.circular(20),
-  //               ),
-  //             ),
-  //             child: Text(
-  //               'Error al iniciar sesión',
-  //               style: textTheme.displayMedium,
-  //               textAlign: TextAlign.center,
-  //             ),
-  //           ),
-  //           content: Text(
-  //             'Por favor ingrese correctamente sus credenciales',
-  //             style: textTheme.displaySmall,
-  //             textAlign: TextAlign.center,
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
 
   Future<void> handleLoadOwner(BuildContext context) async {
     final ownersList = await firestoreService.getAllBikeOwners();
@@ -67,7 +28,7 @@ class RegisterBikeOwnerForm extends StatelessWidget {
       },
     );
     if (selectedOwner != null) {
-      userFieldController.text = selectedOwner.name!;
+      nameFieldController.text = selectedOwner.name!;
       idFieldController.text = '${selectedOwner.idCard!}';
       phoneFieldController.text = '${selectedOwner.phoneNumber!}';
       emailFieldController.text = selectedOwner.email!;
@@ -132,12 +93,17 @@ class RegisterBikeOwnerForm extends StatelessWidget {
           ),
           // Usuario
           FormInput(
-            controller: userFieldController,
+            controller: nameFieldController,
             inputType: TextInputType.name,
             icon: Icons.person,
             hint: 'Usuario',
             isPass: false,
-            validator: (value) {},
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Ingrese un nombre';
+              }
+              return null;
+            },
           ),
           SizedBox(height: screenSize.height * 0.03),
           // Cedula
@@ -147,7 +113,12 @@ class RegisterBikeOwnerForm extends StatelessWidget {
             icon: Icons.badge,
             hint: 'Cedula',
             isPass: false,
-            validator: (value) {},
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Ingrese una cédula';
+              }
+              return null;
+            },
           ),
           SizedBox(height: screenSize.height * 0.03),
           // Telefono
@@ -157,7 +128,12 @@ class RegisterBikeOwnerForm extends StatelessWidget {
             icon: Icons.phone,
             hint: 'Telefono',
             isPass: false,
-            validator: (value) {},
+            validator: (value) {
+              if (value!.isEmpty) {
+                return 'Ingrese una teléfono';
+              }
+              return null;
+            },
           ),
           SizedBox(height: screenSize.height * 0.03),
           // Email
@@ -176,13 +152,28 @@ class RegisterBikeOwnerForm extends StatelessWidget {
               if (!emailValid) {
                 return 'Correo electrónico inválido';
               }
+              return null;
             },
           ),
           SizedBox(height: screenSize.height * 0.03),
           // Boton continuar
           ElevatedButton(
             onPressed: () {
-              Navigator.pushNamed(context, '/register_bike');
+              final owner = BikeOwner(
+                name: nameFieldController.text,
+                idCard: int.parse(idFieldController.text),
+                phoneNumber: int.parse(phoneFieldController.text),
+                email: emailFieldController.text,
+              );
+
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RegisterBikeScreen(
+                    owner: owner,
+                  ),
+                ),
+              );
             },
             child: Text(
               'Continuar',

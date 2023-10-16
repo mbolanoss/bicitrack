@@ -1,9 +1,6 @@
-import 'package:bicitrack/models/bike_owner.dart';
-import 'package:bicitrack/services/firestore_service.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
-import '../../widgets/form_input.dart';
 import '../../widgets/register_bike_owner_form.dart';
 
 class RegisterBikeOwnerScreen extends StatelessWidget {

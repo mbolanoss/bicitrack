@@ -9,9 +9,10 @@ class Bike {
     serialNumber = json['serialNumber'];
   }
 
-  static Map<String, dynamic> toJSON(Bike bike) {
+  Map<String, dynamic> toJSON(int ownerId) {
     return {
-      'serialNumber': bike.serialNumber,
+      'serialNumber': serialNumber,
+      'ownerIdCard': ownerId,
     };
   }
 }

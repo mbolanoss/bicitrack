@@ -1,10 +1,15 @@
 import 'package:flutter/material.dart';
 
+import '../../models/bike_owner.dart';
 import '../../utilities/custom_theme.dart';
-import '../../widgets/form_input.dart';
+import '../../widgets/register_bike_form.dart';
 
 class RegisterBikeScreen extends StatelessWidget {
-  const RegisterBikeScreen({super.key});
+  final BikeOwner? owner;
+  const RegisterBikeScreen({
+    super.key,
+    this.owner,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -74,7 +79,9 @@ class RegisterBikeScreen extends StatelessWidget {
                     ],
                   ),
                   SizedBox(height: screenSize.height * 0.01),
-                  RegisterBikeForm(),
+                  RegisterBikeForm(
+                    owner: owner!,
+                  ),
                   SizedBox(height: screenSize.height * 0.03),
                   // Boton cancelar
                   ElevatedButton(
@@ -96,85 +103,6 @@ class RegisterBikeScreen extends StatelessWidget {
             ),
           ),
         ),
-      ),
-    );
-  }
-}
-
-class RegisterBikeForm extends StatelessWidget {
-  static var formKey = GlobalKey<FormState>();
-  static final serialFieldController = TextEditingController();
-
-  RegisterBikeForm({
-    super.key,
-  });
-
-  // Future<void> handleLogin(BuildContext context) async {
-  //   final textTheme = Theme.of(context).textTheme;
-  //   try {
-  //     await loginService.signInWithEmailAndPassword(
-  //       email: emailFieldController.text,
-  //       password: passFieldController.text,
-  //     );
-  //     emailFieldController.clear();
-  //     passFieldController.clear();
-  //   } on FirebaseAuthException {
-  //     showDialog(
-  //       context: context,
-  //       builder: (_) {
-  //         return AlertDialog(
-  //           backgroundColor: red,
-  //           title: Container(
-  //             padding: const EdgeInsets.all(15),
-  //             decoration: const BoxDecoration(
-  //               color: Colors.white,
-  //               borderRadius: BorderRadius.all(
-  //                 Radius.circular(20),
-  //               ),
-  //             ),
-  //             child: Text(
-  //               'Error al iniciar sesión',
-  //               style: textTheme.displayMedium,
-  //               textAlign: TextAlign.center,
-  //             ),
-  //           ),
-  //           content: Text(
-  //             'Por favor ingrese correctamente sus credenciales',
-  //             style: textTheme.displaySmall,
-  //             textAlign: TextAlign.center,
-  //           ),
-  //         );
-  //       },
-  //     );
-  //   }
-  // }
-
-  @override
-  Widget build(BuildContext context) {
-    final screenSize = MediaQuery.of(context).size;
-    final textTheme = Theme.of(context).textTheme;
-    return Form(
-      key: formKey,
-      child: Column(
-        children: [
-          // Serial
-          FormInput(
-            controller: serialFieldController,
-            icon: Icons.numbers,
-            hint: 'Número de serie',
-            isPass: false,
-            validator: (value) {},
-          ),
-          SizedBox(height: screenSize.height * 0.05),
-          // Boton continuar
-          ElevatedButton(
-            onPressed: () {},
-            child: Text(
-              'Registrar',
-              style: textTheme.labelLarge,
-            ),
-          ),
-        ],
       ),
     );
   }
