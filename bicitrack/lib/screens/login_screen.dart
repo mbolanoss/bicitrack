@@ -48,7 +48,9 @@ class LoginScreen extends StatelessWidget {
                   SizedBox(height: screenSize.height * 0.02),
                   // Boton iniciar sesion Google
                   ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () async {
+                      await LoginService().signInWithGoogle();
+                    },
                     style: elevatedButtonTheme.style!.copyWith(
                       backgroundColor: MaterialStateProperty.all(Colors.white),
                       padding: MaterialStateProperty.all(
