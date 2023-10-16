@@ -5,10 +5,10 @@ class CustomUser {
   String? email;
   String? id;
 
-  CustomUser(
+  CustomUser({
     this.email,
     this.id,
-  );
+  });
 
   CustomUser.fromUserAndPass(User user) {
     email = user.email!;

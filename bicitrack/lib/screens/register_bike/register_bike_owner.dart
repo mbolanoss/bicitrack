@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 
 import '../../widgets/form_input.dart';
 
-class RegisterBikeUser extends StatelessWidget {
-  const RegisterBikeUser({super.key});
+class RegisterBikeOwnerScreen extends StatelessWidget {
+  const RegisterBikeOwnerScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class RegisterBikeUser extends StatelessWidget {
                 children: [
                   // Titulo
                   Text(
-                    'Datos del usuario',
+                    'Datos del dueño',
                     style: textTheme.displayMedium,
                   ),
                   SizedBox(height: screenSize.height * 0.01),
@@ -72,7 +72,7 @@ class RegisterBikeUser extends StatelessWidget {
                   ),
                   SizedBox(height: screenSize.height * 0.01),
                   // Formulario
-                  RegisterUserForm(),
+                  RegisterBikeOwnerForm(),
 
                   SizedBox(height: screenSize.height * 0.03),
                   // Boton cancelar
@@ -100,14 +100,14 @@ class RegisterBikeUser extends StatelessWidget {
   }
 }
 
-class RegisterUserForm extends StatelessWidget {
+class RegisterBikeOwnerForm extends StatelessWidget {
   static var formKey = GlobalKey<FormState>();
   static final userFieldController = TextEditingController();
   static final idFieldController = TextEditingController();
   static final phoneFieldController = TextEditingController();
   static final emailFieldController = TextEditingController();
 
-  RegisterUserForm({
+  RegisterBikeOwnerForm({
     super.key,
   });
 

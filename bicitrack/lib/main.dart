@@ -1,5 +1,5 @@
 import 'package:bicitrack/screens/home_screen.dart';
-import 'package:bicitrack/screens/register_bike/register_bike_user.dart';
+import 'package:bicitrack/screens/register_bike/register_bike_owner.dart';
 import 'package:bicitrack/screens/test_screen.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
@@ -33,15 +33,15 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/register_bike_user',
+      initialRoute: '/register_bike_owner',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
         '/test': (context) => const TestScreen(),
         '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
-        '/register_bike_user': (context) => const RegisterBikeUser(),
-        '/register_bike': (context) => const RegisterBike(),
+        '/register_bike_owner': (context) => const RegisterBikeOwnerScreen(),
+        '/register_bike': (context) => const RegisterBikeScreen(),
       },
     );
   }

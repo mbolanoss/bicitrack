@@ -3,8 +3,8 @@ import 'package:flutter/material.dart';
 import '../../utilities/custom_theme.dart';
 import '../../widgets/form_input.dart';
 
-class RegisterBike extends StatelessWidget {
-  const RegisterBike({super.key});
+class RegisterBikeScreen extends StatelessWidget {
+  const RegisterBikeScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
