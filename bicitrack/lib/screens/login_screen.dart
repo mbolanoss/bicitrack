@@ -7,7 +7,7 @@ import '../services/login_service.dart';
 import '../widgets/form_input.dart';
 
 class LoginScreen extends StatelessWidget {
-  LoginScreen({super.key});
+  const LoginScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -106,7 +106,8 @@ class LoginForm extends StatelessWidget {
         email: emailFieldController.text,
         password: passFieldController.text,
       );
-      print('LOGGED IN');
+      emailFieldController.clear();
+      passFieldController.clear();
     } on FirebaseAuthException {
       showDialog(
         context: context,

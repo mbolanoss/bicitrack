@@ -9,11 +9,22 @@ class HomeScreen extends StatelessWidget {
     return SafeArea(
       child: Scaffold(
         body: Center(
-          child: ElevatedButton(
-            onPressed: () async {
-              await LoginService().signOut();
-            },
-            child: Text('Sign out'),
+          child: Column(
+            children: [
+              ElevatedButton(
+                onPressed: () async {
+                  await LoginService().signOut();
+                },
+                child: const Text('Sign out'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  print(LoginService().currentUser!.email);
+                  print(LoginService().currentUser!.id);
+                },
+                child: const Text('Current user'),
+              ),
+            ],
           ),
         ),
       ),

@@ -1,11 +1,19 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
+import '../models/user.dart';
+
 class LoginService {
   final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
   final GoogleSignIn _googleSignIn = GoogleSignIn();
 
-  User? get currentUser => _firebaseAuth.currentUser;
+  CustomUser? get currentUser {
+    if (_firebaseAuth.currentUser != null) {
+      return CustomUser.fromUserAndPass(_firebaseAuth.currentUser!);
+    } else {
+      return CustomUser.fromGoogle(_googleSignIn.currentUser!);
+    }
+  }
 
   Stream<User?> get authStateChanges => _firebaseAuth.authStateChanges();
 
@@ -19,7 +27,9 @@ class LoginService {
 
   Future<void> signOut() async {
     await _firebaseAuth.signOut();
-    await GoogleSignIn().disconnect();
+    try {
+      await GoogleSignIn().disconnect();
+    } catch (e) {}
   }
 
   Future<UserCredential> signInWithGoogle() async {
