@@ -1,8 +1,10 @@
 import 'package:bicitrack/models/bike.dart';
 import 'package:bicitrack/services/firestore_service.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../models/bike_owner.dart';
+import '../providers/bike_register_provider.dart';
 import '../utilities/custom_theme.dart';
 import 'form_input.dart';
 
@@ -11,16 +13,18 @@ class RegisterBikeForm extends StatelessWidget {
   static var formKey = GlobalKey<FormState>();
   static final serialFieldController = TextEditingController();
 
-  RegisterBikeForm({
+  const RegisterBikeForm({
     super.key,
     required this.owner,
   });
 
   Future<void> handleRegister(BuildContext context) async {
-    final bike = Bike(serialNumber: serialFieldController.text);
-    try {
-      final firestoreService = FirestoreService();
+    final firestoreService = FirestoreService();
+    final bikeRegisterProvider = context.read<BikeRegisterProvider>();
 
+    final bike = Bike(serialNumber: serialFieldController.text);
+
+    try {
       // Registrar solo la bicicleta
       if (await firestoreService.checkOwnerExists(owner.idCard!)) {
         await firestoreService.registerBike(owner, bike);
@@ -32,6 +36,20 @@ class RegisterBikeForm extends StatelessWidget {
           bike,
         );
       }
+
+      // Subir fotos
+      final ownerPhoto = bikeRegisterProvider.ownerPhotoFile;
+      final bikePhoto = bikeRegisterProvider.bikePhotoFile;
+      firestoreService.uploadPhoto(
+        file: ownerPhoto!,
+        folder: 'users_photos',
+        name: '${owner.idCard!}',
+      );
+      firestoreService.uploadPhoto(
+        file: bikePhoto!,
+        folder: 'bikes_photos',
+        name: '${owner.idCard!}-${bike.serialNumber}',
+      );
 
       // ignore: use_build_context_synchronously
       showSuccessDialog(context);

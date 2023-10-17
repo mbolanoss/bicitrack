@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:bicitrack/models/bike_owner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -39,5 +41,14 @@ class FirestoreService {
         .get();
 
     return ownerResult.size == 1;
+  }
+
+  Future<void> uploadPhoto({
+    required Uint8List file,
+    required String folder,
+    required String name,
+  }) async {
+    final ref = _storage.ref().child(folder).child(name);
+    await ref.putData(file);
   }
 }
