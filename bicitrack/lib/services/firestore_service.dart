@@ -51,4 +51,12 @@ class FirestoreService {
     final ref = _storage.ref().child(folder).child(name);
     await ref.putData(file);
   }
+
+  Future<Uint8List?> downloadPhoto({
+    required String folder,
+    required String name,
+  }) async {
+    final ref = _storage.ref().child(folder).child(name);
+    return await ref.getData();
+  }
 }

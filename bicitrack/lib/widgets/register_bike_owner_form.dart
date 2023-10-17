@@ -199,6 +199,22 @@ class OwnersDialog extends StatelessWidget {
     required this.owners,
   });
 
+  void handleOwner(BikeOwner owner, BuildContext context) async {
+    final firestoreService = FirestoreService();
+    final bikeRegisterProvider = context.read<BikeRegisterProvider>();
+
+    final ownerPhoto = await firestoreService.downloadPhoto(
+      folder: 'users_photos',
+      name: '${owner.idCard}',
+    );
+
+    if (ownerPhoto != null) {
+      bikeRegisterProvider.changeOwnerPhoto(ownerPhoto);
+    }
+
+    Navigator.of(context).pop(owner);
+  }
+
   @override
   Widget build(BuildContext context) {
     final textTheme = Theme.of(context).textTheme;
@@ -223,7 +239,7 @@ class OwnersDialog extends StatelessWidget {
           itemBuilder: (_, index) {
             return GestureDetector(
               onTap: () {
-                Navigator.of(context).pop(owners[index]);
+                handleOwner(owners[index], context);
               },
               child: ListTile(
                 title: Text(
