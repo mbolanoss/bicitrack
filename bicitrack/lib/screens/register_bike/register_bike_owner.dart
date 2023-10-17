@@ -1,8 +1,14 @@
+import 'dart:typed_data';
+
+import 'package:bicitrack/providers/bike_register_provider.dart';
+import 'package:bicitrack/services/photo_taker.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
 import '../../widgets/register_bike_owner_form.dart';
 
+// ignore: must_be_immutable
 class RegisterBikeOwnerScreen extends StatelessWidget {
   RegisterBikeOwnerScreen({super.key});
 
@@ -16,6 +22,7 @@ class RegisterBikeOwnerScreen extends StatelessWidget {
       child: Scaffold(
         appBar: AppBar(
           backgroundColor: cream,
+          surfaceTintColor: Colors.transparent,
           leading: IconButton(
             style: IconButton.styleFrom(
               splashFactory: NoSplash.splashFactory,
@@ -45,32 +52,7 @@ class RegisterBikeOwnerScreen extends StatelessWidget {
                   SizedBox(height: screenSize.height * 0.01),
 
                   // Foto de usuario
-                  Stack(
-                    alignment: AlignmentDirectional.bottomEnd,
-                    children: [
-                      Icon(
-                        Icons.account_circle,
-                        color: seablue,
-                        size: screenSize.width * 0.4,
-                      ),
-                      // Boton añadir foto
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: elevatedButtonTheme.style!.copyWith(
-                          shape:
-                              MaterialStateProperty.all(const CircleBorder()),
-                          padding: MaterialStateProperty.all(
-                            const EdgeInsets.all(10),
-                          ),
-                        ),
-                        child: const Icon(
-                          Icons.add_a_photo,
-                          size: 30,
-                          color: Colors.white,
-                        ),
-                      ),
-                    ],
-                  ),
+                  const OwnerPhoto(),
                   SizedBox(height: screenSize.height * 0.03),
                   // Formulario
                   RegisterBikeOwnerForm(),
@@ -97,6 +79,71 @@ class RegisterBikeOwnerScreen extends StatelessWidget {
           ),
         ),
       ),
+    );
+  }
+}
+
+class OwnerPhoto extends StatefulWidget {
+  const OwnerPhoto({
+    super.key,
+  });
+
+  @override
+  State<OwnerPhoto> createState() => _OwnerPhotoState();
+}
+
+class _OwnerPhotoState extends State<OwnerPhoto> {
+  Uint8List? file;
+
+  @override
+  Widget build(BuildContext context) {
+    final screenSize = MediaQuery.of(context).size;
+    final elevatedButtonTheme = Theme.of(context).elevatedButtonTheme;
+
+    final bikeRegisterProvider = context.watch<BikeRegisterProvider>();
+    final ownerPhoto = bikeRegisterProvider.ownerPhotoFile;
+
+    return Stack(
+      alignment: AlignmentDirectional.bottomEnd,
+      children: [
+        ownerPhoto == null
+            ? Icon(
+                Icons.account_circle,
+                color: seablue,
+                size: screenSize.width * 0.4,
+              )
+            : Container(
+                width: screenSize.width * 0.4,
+                height: screenSize.width * 0.4,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(100.0),
+                  image: DecorationImage(
+                    image: MemoryImage(ownerPhoto),
+                    fit: BoxFit.fill,
+                  ),
+                ),
+              ),
+        // Boton añadir foto
+        ElevatedButton(
+          onPressed: () async {
+            final photo = await PhotoTaker().takePhoto();
+            if (photo != null) {
+              bikeRegisterProvider.changeOwnerPhoto(photo);
+            }
+          },
+          style: elevatedButtonTheme.style!.copyWith(
+            shape: MaterialStateProperty.all(const CircleBorder()),
+            padding: MaterialStateProperty.all(
+              const EdgeInsets.all(10),
+            ),
+          ),
+          child: const Icon(
+            Icons.add_a_photo,
+            size: 30,
+            color: Colors.white,
+          ),
+        ),
+      ],
     );
   }
 }

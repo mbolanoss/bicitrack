@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import '../models/bike_owner.dart';
+import '../providers/bike_register_provider.dart';
 import '../screens/register_bike/register_bike.dart';
 import '../services/firestore_service.dart';
 import '../utilities/custom_theme.dart';
+import 'package:provider/provider.dart';
 import 'form_input.dart';
 
 class RegisterBikeOwnerForm extends StatelessWidget {
@@ -44,6 +46,7 @@ class RegisterBikeOwnerForm extends StatelessWidget {
     final screenSize = MediaQuery.of(context).size;
     final textTheme = Theme.of(context).textTheme;
     final elevatedButtonTheme = Theme.of(context).elevatedButtonTheme;
+    final bikeRegisterProvider = context.read<BikeRegisterProvider>();
 
     return Form(
       key: formKey,
@@ -159,21 +162,24 @@ class RegisterBikeOwnerForm extends StatelessWidget {
           // Boton continuar
           ElevatedButton(
             onPressed: () {
-              final owner = BikeOwner(
-                name: nameFieldController.text,
-                idCard: int.parse(idFieldController.text),
-                phoneNumber: int.parse(phoneFieldController.text),
-                email: emailFieldController.text,
-              );
+              if (formKey.currentState!.validate()) {
+                final owner = BikeOwner(
+                  name: nameFieldController.text,
+                  idCard: int.parse(idFieldController.text),
+                  phoneNumber: int.parse(phoneFieldController.text),
+                  email: emailFieldController.text,
+                );
 
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RegisterBikeScreen(
-                    owner: owner,
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RegisterBikeScreen(
+                      owner: owner,
+                      ownerPhotoFile: bikeRegisterProvider.ownerPhotoFile,
+                    ),
                   ),
-                ),
-              );
+                );
+              }
             },
             child: Text(
               'Continuar',
