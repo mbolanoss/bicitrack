@@ -44,12 +44,14 @@ class FirestoreService {
   }
 
   Future<void> uploadPhoto({
-    required Uint8List file,
+    required Uint8List? file,
     required String folder,
     required String name,
   }) async {
-    final ref = _storage.ref().child(folder).child(name);
-    await ref.putData(file);
+    if (file != null) {
+      final ref = _storage.ref().child(folder).child(name);
+      await ref.putData(file);
+    }
   }
 
   Future<Uint8List?> downloadPhoto({

@@ -19,46 +19,51 @@ class RegisterBikeForm extends StatelessWidget {
   });
 
   Future<void> handleRegister(BuildContext context) async {
-    final firestoreService = FirestoreService();
-    final bikeRegisterProvider = context.read<BikeRegisterProvider>();
+    if (formKey.currentState!.validate()) {
+      final firestoreService = FirestoreService();
+      final bikeRegisterProvider = context.read<BikeRegisterProvider>();
 
-    final bike = Bike(serialNumber: serialFieldController.text);
-
-    try {
-      // Registrar solo la bicicleta
-      if (await firestoreService.checkOwnerExists(owner.idCard!)) {
-        await firestoreService.registerBike(owner, bike);
-      }
-      // Registrar dueño y bicicleta
-      else {
-        await firestoreService.registerOwnerAndBike(
-          owner,
-          bike,
-        );
-      }
-
-      // Subir fotos
+      final bike = Bike(serialNumber: serialFieldController.text);
       final ownerPhoto = bikeRegisterProvider.ownerPhotoFile;
       final bikePhoto = bikeRegisterProvider.bikePhotoFile;
-      firestoreService.uploadPhoto(
-        file: ownerPhoto!,
-        folder: 'users_photos',
-        name: '${owner.idCard!}',
-      );
-      firestoreService.uploadPhoto(
-        file: bikePhoto!,
-        folder: 'bikes_photos',
-        name: '${owner.idCard!}-${bike.serialNumber}',
-      );
 
-      // ignore: use_build_context_synchronously
-      showSuccessDialog(context);
-    } on Exception {
-      showErrorDialog(context);
+      if (bikePhoto == null) {
+        showErrorDialog(context, 'Tome una foto de la bicicleta');
+      } else {
+        try {
+          // Registrar solo la bicicleta
+          if (await firestoreService.checkOwnerExists(owner.idCard!)) {
+            await firestoreService.registerBike(owner, bike);
+          }
+          // Registrar dueño y bicicleta
+          else {
+            await firestoreService.registerOwnerAndBike(
+              owner,
+              bike,
+            );
+          }
+
+          // Subir fotos
+          firestoreService.uploadPhoto(
+            file: ownerPhoto,
+            folder: 'users_photos',
+            name: '${owner.idCard!}',
+          );
+          firestoreService.uploadPhoto(
+            file: bikePhoto,
+            folder: 'bikes_photos',
+            name: '${owner.idCard!}-${bike.serialNumber}',
+          );
+          // ignore: use_build_context_synchronously
+          showSuccessDialog(context);
+        } on Exception {
+          showErrorDialog(context, 'Por favor contacte al administrador');
+        }
+      }
     }
   }
 
-  Future<dynamic> showErrorDialog(BuildContext context) {
+  Future<dynamic> showErrorDialog(BuildContext context, String errorMessage) {
     final textTheme = Theme.of(context).textTheme;
 
     return showDialog(
@@ -81,7 +86,7 @@ class RegisterBikeForm extends StatelessWidget {
             ),
           ),
           content: Text(
-            'Por favor contacte al administrador',
+            errorMessage,
             style: textTheme.displaySmall,
             textAlign: TextAlign.center,
           ),

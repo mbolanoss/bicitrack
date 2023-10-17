@@ -37,8 +37,11 @@ class RegisterBikeOwnerForm extends StatelessWidget {
     }
   }
 
-  void clearFields() {
+  void clearFields(BuildContext context) {
     formKey.currentState!.reset();
+
+    final bikeRegisterProvider = context.read<BikeRegisterProvider>();
+    bikeRegisterProvider.resetOwnerPhoto();
   }
 
   @override
@@ -78,7 +81,7 @@ class RegisterBikeOwnerForm extends StatelessWidget {
               // Resetear campos
               ElevatedButton(
                 onPressed: () {
-                  clearFields();
+                  clearFields(context);
                 },
                 style: elevatedButtonTheme.style!.copyWith(
                   shape: MaterialStateProperty.all(const CircleBorder()),

@@ -17,4 +17,14 @@ class BikeRegisterProvider with ChangeNotifier {
     bikePhotoFile = newPhoto;
     notifyListeners();
   }
+
+  void resetOwnerPhoto() {
+    ownerPhotoFile = null;
+    notifyListeners();
+  }
+
+  void resetBikePhoto() {
+    bikePhotoFile = null;
+    notifyListeners();
+  }
 }
