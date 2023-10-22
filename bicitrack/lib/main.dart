@@ -1,12 +1,16 @@
 import 'package:bicitrack/screens/bicycle_view.dart';
+import 'package:bicitrack/providers/bike_register_provider.dart';
 import 'package:bicitrack/screens/home_screen.dart';
+import 'package:bicitrack/screens/register_bike/register_bike_owner.dart';
 import 'package:bicitrack/screens/test_screen.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
 import 'screens/login_screen.dart';
+import 'screens/register_bike/register_bike.dart';
 import 'screens/wrapper.dart';
+import 'package:provider/provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -19,7 +23,16 @@ void main() async {
   // ]);
 
   // Usar un MultiProvider para acceder a los providers desde cualquier parte
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(
+          create: (_) => BikeRegisterProvider(),
+        ),
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -40,6 +53,8 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
         '/bicycle-view': (context) => const BicycleScreen(),
+        '/register_bike_owner': (context) => RegisterBikeOwnerScreen(),
+        '/register_bike': (context) => const RegisterBikeScreen(),
       },
     );
   }

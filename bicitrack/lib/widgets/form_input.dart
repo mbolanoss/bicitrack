@@ -7,6 +7,7 @@ class FormInput extends StatefulWidget {
   final bool isPass;
   final String? Function(String?) validator;
   final TextEditingController controller;
+  final TextInputType inputType;
 
   const FormInput({
     super.key,
@@ -15,6 +16,7 @@ class FormInput extends StatefulWidget {
     required this.isPass,
     required this.validator,
     required this.controller,
+    this.inputType = TextInputType.emailAddress,
   });
 
   @override
@@ -33,6 +35,7 @@ class _FormInputState extends State<FormInput> {
         Flexible(
           child: TextFormField(
             controller: widget.controller,
+            keyboardType: widget.inputType,
             cursorColor: seablue,
             obscureText: hasVisibilty,
             decoration: InputDecoration(
