@@ -1,3 +1,7 @@
+import 'package:bicitrack/widgets/header.dart';
+import 'package:bicitrack/widgets/header_pill.dart';
+import 'package:bicitrack/widgets/owner_data.dart';
+import 'package:bicitrack/widgets/pill.dart';
 import 'package:flutter/material.dart';
 
 class BicycleScreen extends StatelessWidget {
@@ -7,17 +11,7 @@ class BicycleScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              color: Colors.blue.shade700,
-              child: const Text('04 9C 64 D2 45 2B 80',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold)),
-            )),
+        title: const HeaderPill(text: '04 9C 64 D2 45 2B 80'),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
@@ -33,101 +27,23 @@ class BicycleScreen extends StatelessWidget {
           ),
         )),
         const SizedBox(height: 16),
-        ClipRRect(
-            borderRadius: const BorderRadius.all(Radius.circular(15)),
-            child: Container(
-              padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-              color: Colors.green.shade600,
-              child: const Text('LP 44099790',
-                  style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.bold)),
-            )),
+        const Pill(text: 'LP 44099790'),
         const SizedBox(height: 36),
-        const Text(
-          'Propietario',
-          style: TextStyle(
-            fontSize: 24,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
+        const Header(text: 'Propietario'),
         const SizedBox(height: 12),
-
-        // TODO: Turn into one component
         Container(
-          margin: const EdgeInsets.fromLTRB(32, 12, 32, 12),
-          child: Column(children: [
-            Row(
-              children: [
-                const Icon(
-                  Icons.person,
-                  size: 32,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'Santiago Acosta Meza',
-                  style: TextStyle(
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
+            margin: const EdgeInsets.fromLTRB(32, 12, 32, 12),
+            child: const OwnerData(
+              data: [
+                OwnerDataUnit(
+                    icon: Icons.person, content: 'Santiago Acosta Meza'),
+                OwnerDataUnit(
+                    icon: Icons.assignment_ind, content: '100101019234'),
+                OwnerDataUnit(icon: Icons.phone, content: '315 299 9847'),
+                OwnerDataUnit(
+                    icon: Icons.email_rounded, content: 'saacostam@mail.com'),
               ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(
-                  Icons.assignment_ind,
-                  size: 32,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '100101019234',
-                  style: TextStyle(
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(
-                  Icons.phone,
-                  size: 32,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  '315 299 9847',
-                  style: TextStyle(
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-            Row(
-              children: [
-                const Icon(
-                  Icons.email_rounded,
-                  size: 32,
-                ),
-                const SizedBox(width: 8),
-                Text(
-                  'saacostam@mail.com',
-                  style: TextStyle(
-                      color: Colors.blue.shade700,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 18),
-                ),
-              ],
-            ),
-            const SizedBox(height: 20),
-          ]),
-        )
+            )),
       ]),
     );
   }
