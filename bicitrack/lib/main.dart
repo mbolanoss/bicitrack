@@ -1,3 +1,4 @@
+import 'package:bicitrack/screens/bicycle_view.dart';
 import 'package:bicitrack/screens/home_screen.dart';
 import 'package:bicitrack/screens/test_screen.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
@@ -31,13 +32,14 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/wrapper',
+      initialRoute: '/',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
         '/test': (context) => const TestScreen(),
-        '/login': (context) => LoginScreen(),
+        '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
+        '/bicycle-view': (context) => const BicycleScreen(),
       },
     );
   }

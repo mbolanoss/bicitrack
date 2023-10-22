@@ -24,6 +24,12 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: const Text('Current user'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/bicycle-view');
+                },
+                child: const Text('Bicycle View'),
+              ),
             ],
           ),
         ),

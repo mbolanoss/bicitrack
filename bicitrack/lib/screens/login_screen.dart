@@ -163,6 +163,7 @@ class LoginForm extends StatelessWidget {
               if (!emailValid) {
                 return 'Correo electrónico inválido';
               }
+              return null;
             },
           ),
           SizedBox(height: screenSize.height * 0.03),
@@ -176,6 +177,7 @@ class LoginForm extends StatelessWidget {
               if (value!.isEmpty) {
                 return 'Ingrese una contraseña';
               }
+              return null;
             },
           ),
           SizedBox(height: screenSize.height * 0.06),

@@ -29,7 +29,9 @@ class LoginService {
     await _firebaseAuth.signOut();
     try {
       await GoogleSignIn().disconnect();
-    } catch (e) {}
+    } catch (e) {
+      // pass
+    }
   }
 
   Future<UserCredential> signInWithGoogle() async {
