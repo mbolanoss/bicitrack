@@ -1,3 +1,4 @@
+import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
 class HeaderPill extends StatelessWidget {
@@ -11,7 +12,7 @@ class HeaderPill extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         child: Container(
           padding: const EdgeInsets.all(8),
-          color: Colors.blue.shade700,
+          color: seablue,
           child: Text(text,
               style: const TextStyle(
                   color: Colors.white,

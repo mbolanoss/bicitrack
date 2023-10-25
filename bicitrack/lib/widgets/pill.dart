@@ -1,3 +1,4 @@
+import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
 
 class Pill extends StatelessWidget {
@@ -14,7 +15,7 @@ class Pill extends StatelessWidget {
         borderRadius: const BorderRadius.all(Radius.circular(15)),
         child: Container(
           padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-          color: Colors.green.shade600,
+          color: green,
           child: Text(text,
               style: const TextStyle(
                   color: Colors.white,
