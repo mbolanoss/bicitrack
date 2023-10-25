@@ -21,7 +21,7 @@ class BicycleScreen extends StatelessWidget {
       body: ListView(children: [
         Column(
           children: [
-            const SizedBox(height: 24),
+            SizedBox(height: screenSize.height * 0.03),
             Center(
                 child: ClipRRect(
               borderRadius: const BorderRadius.all(Radius.circular(15)),
