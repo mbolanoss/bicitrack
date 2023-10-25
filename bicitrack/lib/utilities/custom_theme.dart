@@ -4,6 +4,7 @@ import 'package:google_fonts/google_fonts.dart';
 const cream = Color(0xFFDAF0EE);
 const green = Color(0xFF2BA84A);
 const seablue = Color(0xFF086375);
+const transSeablue = Color(0x99086375);
 const red = Color(0xFFF03A47);
 const purple = Color(0xFF52154E);
 
