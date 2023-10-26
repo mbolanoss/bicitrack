@@ -10,6 +10,7 @@ class HomeScreen extends StatelessWidget {
       child: Scaffold(
         body: Center(
           child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
             children: [
               ElevatedButton(
                 onPressed: () async {
@@ -17,12 +18,17 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: const Text('Sign out'),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
-                  print(LoginService().currentUser!.email);
-                  print(LoginService().currentUser!.id);
+                  Navigator.pushNamed(context, '/register_bike_owner');
                 },
-                child: const Text('Current user'),
+                child: const Text('Register bike'),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
@@ -30,11 +36,17 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: const Text('Bicycle View'),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/dashboard');
                 },
                 child: const Text('Dashboard'),
+              ),
+              const SizedBox(
+                height: 20,
               ),
               ElevatedButton(
                 onPressed: () {
@@ -42,17 +54,28 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: const Text('Ready to Scan'),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/scanning_successful');
                 },
                 child: const Text('Entry Registered'),
               ),
+              const SizedBox(
+                height: 20,
+              ),
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/scanning_went_wrong');
                 },
-                child: const Text('Something Went Wrong'),
+                child: const Text(
+                  'Wrong scan',
+                ),
+              ),
+              const SizedBox(
+                height: 20,
               ),
             ],
           ),
