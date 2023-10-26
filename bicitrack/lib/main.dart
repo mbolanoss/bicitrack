@@ -3,6 +3,9 @@ import 'package:bicitrack/providers/bike_register_provider.dart';
 import 'package:bicitrack/screens/dashboard.dart';
 import 'package:bicitrack/screens/home_screen.dart';
 import 'package:bicitrack/screens/register_bike/register_bike_owner.dart';
+import 'package:bicitrack/screens/scan_nfc/ready_to_scan_screen.dart';
+import 'package:bicitrack/screens/scan_nfc/scanning_successful_screen.dart';
+import 'package:bicitrack/screens/scan_nfc/scanning_went_wrong_screen.dart';
 import 'package:bicitrack/screens/test_screen.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:flutter/material.dart';
@@ -57,6 +60,9 @@ class MyApp extends StatelessWidget {
         '/register_bike_owner': (context) => RegisterBikeOwnerScreen(),
         '/register_bike': (context) => const RegisterBikeScreen(),
         '/dashboard': (context) => const DashboardScreen(),
+        '/ready_to_scan': (context) => const ReadyToScanScreen(),
+        '/scanning_successful': (context) => const ScanningSuccessfulScreen(),
+        '/scanning_went_wrong': (context) => const ScanningWentWrongScreen(),
       },
     );
   }

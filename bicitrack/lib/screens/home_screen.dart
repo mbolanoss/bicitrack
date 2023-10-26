@@ -36,6 +36,24 @@ class HomeScreen extends StatelessWidget {
                 },
                 child: const Text('Dashboard'),
               ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/ready_to_scan');
+                },
+                child: const Text('Ready to Scan'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/scanning_successful');
+                },
+                child: const Text('Entry Registered'),
+              ),
+              ElevatedButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/scanning_went_wrong');
+                },
+                child: const Text('Something Went Wrong'),
+              ),
             ],
           ),
         ),
