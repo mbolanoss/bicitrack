@@ -1,5 +1,3 @@
-import 'dart:typed_data';
-
 import 'package:bicitrack/models/bike_owner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -61,5 +59,16 @@ class BikeService {
         .get();
 
     return bikesThatMatchSerialNumber.size == 1;
+  }
+
+  Future<void> deleteBike(String serialNumber) async{
+    final bikesThatMatchSerialNumberRaw = await _firestore
+        .collection('bikes')
+        .where('serialNumber', isEqualTo: serialNumber)
+        .get();
+
+    bikesThatMatchSerialNumberRaw.docs.forEach((doc) {
+      doc.reference.delete();
+    });
   }
 }

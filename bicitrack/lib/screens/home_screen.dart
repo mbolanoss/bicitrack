@@ -1,3 +1,4 @@
+import 'package:bicitrack/screens/bicycle_view.dart';
 import 'package:bicitrack/services/login_service.dart';
 import 'package:flutter/material.dart';
 
@@ -32,18 +33,14 @@ class HomeScreen extends StatelessWidget {
               ),
               ElevatedButton(
                 onPressed: () {
-                  Navigator.pushNamed(context, '/bicycle-view');
+                  Navigator.push(context, MaterialPageRoute(
+                      builder: (context) {
+                        const testSerialNumber = "gsxbderg";
+                        return BicycleScreen(serialNumber: testSerialNumber);
+                      }
+                  ));
                 },
                 child: const Text('Bicycle View'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/edit-bicycle-view');
-                },
-                child: const Text('Edit Bicycle View'),
               ),
               const SizedBox(
                 height: 20,

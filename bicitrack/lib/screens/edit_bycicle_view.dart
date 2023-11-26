@@ -8,11 +8,18 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class EditBycicleView extends StatefulWidget{
+  late String serialNumber;
+
+  EditBycicleView({super.key, required this.serialNumber});
+
   @override
-  State<EditBycicleView> createState() => _EditBicycleViewState();
+  State<EditBycicleView> createState() => _EditBicycleViewState(serialNumber);
 }
 
 class _EditBicycleViewState extends State<EditBycicleView> {
+  late String serialNumber;
+  _EditBicycleViewState(this.serialNumber);
+
   final firestoreService = BikeService();
 
   bool loading = true;
@@ -29,9 +36,7 @@ class _EditBicycleViewState extends State<EditBycicleView> {
   }
 
   void fetchInitialBikeInfo() async {
-    const testSerialNumber = "gsxbderg";
-
-    final bikeAndOwner = await firestoreService.getBikeAndOwnerBySerialNumber(testSerialNumber);
+    final bikeAndOwner = await firestoreService.getBikeAndOwnerBySerialNumber(serialNumber);
     final bikeOwner = bikeAndOwner.bikeOwner;
 
     setState(() {
@@ -80,7 +85,7 @@ class _EditBicycleViewState extends State<EditBycicleView> {
             actions: [
               ElevatedButton(
                 onPressed: () {
-                  Navigator.of(context).pushReplacementNamed('/');
+                  Navigator.pushNamed(context, '/');
                 },
                 style: elevatedButtonTheme.style!.copyWith(
                   backgroundColor: MaterialStateProperty.all(Colors.white),
@@ -113,7 +118,7 @@ class _EditBicycleViewState extends State<EditBycicleView> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const HeaderPill(text: '04 9C 64 D2 45 2B 80'),
+        title: HeaderPill(text: serialNumber),
         centerTitle: true,
         backgroundColor: Colors.transparent,
       ),
