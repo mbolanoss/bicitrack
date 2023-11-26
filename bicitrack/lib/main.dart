@@ -1,6 +1,7 @@
 import 'package:bicitrack/screens/bicycle_view.dart';
 import 'package:bicitrack/providers/bike_register_provider.dart';
 import 'package:bicitrack/screens/dashboard.dart';
+import 'package:bicitrack/screens/edit_bycicle_view.dart';
 import 'package:bicitrack/screens/home_screen.dart';
 import 'package:bicitrack/screens/register_bike/register_bike_owner.dart';
 import 'package:bicitrack/screens/scan_nfc/ready_to_scan_screen.dart';
@@ -57,6 +58,7 @@ class MyApp extends StatelessWidget {
         '/login': (context) => const LoginScreen(),
         '/wrapper': (context) => Wrapper(),
         '/bicycle-view': (context) => const BicycleScreen(),
+        '/edit-bicycle-view': (context) => EditBycicleView(),
         '/register_bike_owner': (context) => RegisterBikeOwnerScreen(),
         '/register_bike': (context) => const RegisterBikeScreen(),
         '/dashboard': (context) => const DashboardScreen(),

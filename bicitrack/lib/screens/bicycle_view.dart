@@ -2,7 +2,6 @@ import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:bicitrack/widgets/header.dart';
 import 'package:bicitrack/widgets/header_pill.dart';
 import 'package:bicitrack/widgets/owner_data.dart';
-import 'package:bicitrack/widgets/pill.dart';
 import 'package:flutter/material.dart';
 
 class BicycleScreen extends StatelessWidget {
@@ -31,8 +30,6 @@ class BicycleScreen extends StatelessWidget {
                 color: purple,
               ),
             )),
-            SizedBox(height: screenSize.height * 0.03),
-            const Pill(text: 'LP 44099790'),
             SizedBox(height: screenSize.height * 0.03),
             const Header(text: 'Propietario'),
             SizedBox(height: screenSize.height * 0.03),

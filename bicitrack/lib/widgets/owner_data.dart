@@ -31,19 +31,6 @@ class _OwnerDataState extends State<OwnerData> {
             style: const TextStyle(
                 color: seablue, fontWeight: FontWeight.bold, fontSize: 18),
           )
-
-          // widget.isEditMode
-          //     ? TextFormField(
-          //         initialValue: widget.data[i].content,
-          //         controller: widget.data[i].controller,
-          //       )
-          //     : Text(
-          //         widget.data[i].content,
-          //         style: const TextStyle(
-          //             color: seablue,
-          //             fontWeight: FontWeight.bold,
-          //             fontSize: 18),
-          //       )
         ],
       ));
 
