@@ -133,6 +133,7 @@ class _EditBicycleViewState extends State<EditBycicleView> {
                     height: 216,
                     width: 216,
                     color: purple,
+                    child: Image(image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/bicitrack-de168.appspot.com/o/bikes_photos%2F$idCard-$serialNumber?alt=media")),
                   ),
                 )),
             SizedBox(height: screenSize.height * 0.03),
