@@ -35,7 +35,7 @@ class HomeScreen extends StatelessWidget {
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
                       builder: (context) {
-                        const testSerialNumber = "TESTPHOTO";
+                        const testSerialNumber = "46TFS66DA";
                         return BicycleScreen(serialNumber: testSerialNumber);
                       }
                   ));

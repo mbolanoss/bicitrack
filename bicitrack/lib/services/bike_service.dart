@@ -1,3 +1,4 @@
+import 'package:bicitrack/models/InNOut.dart';
 import 'package:bicitrack/models/bike_owner.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_storage/firebase_storage.dart';
@@ -70,5 +71,13 @@ class BikeService {
     bikesThatMatchSerialNumberRaw.docs.forEach((doc) {
       doc.reference.delete();
     });
+  }
+  
+  Future<Iterable<InNOut>> getAllInNOuts() async {
+    final allInNOuts = await _firestore
+        .collection('in_n_out')
+        .get();
+
+    return allInNOuts.docs.map((e) => InNOut.fromJSON(e.data()));
   }
 }

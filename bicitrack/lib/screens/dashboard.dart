@@ -1,34 +1,95 @@
+import 'package:bicitrack/services/bike_service.dart';
 import 'package:bicitrack/utilities/custom_theme.dart';
 import 'package:bicitrack/widgets/header.dart';
 import 'package:bicitrack/widgets/usage_history_item.dart';
 import 'package:flutter/material.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:intl/intl.dart';
 
-class DashboardScreen extends StatelessWidget {
+class DashboardScreen extends StatefulWidget {
   const DashboardScreen({super.key});
+
+  @override
+  State<DashboardScreen> createState() => _DashboardScreenState();
+}
+
+class _DashboardScreenState extends State<DashboardScreen> {
+  bool isLoading = true;
+  List<UsageHistoryItemData> data = [];
+  List<ChartData> chartData = [];
+
+  final firestoreService = BikeService();
+
+  void initState(){
+    super.initState();
+    fetchBikeData(context);
+  }
+
+  void fetchBikeData(BuildContext context) async {
+    Map<int, int> count = {};
+    try{
+     final rawInNOuts = await firestoreService.getAllInNOuts();
+     data = [];
+
+    final today = DateTime.now();
+    final difference = today.weekday - 1;
+
+     final start = today.subtract(Duration(days: difference));
+     final end = start.add(const Duration(days: 7));
+
+     for (final el in rawInNOuts){
+       if (el.date != null && el.date!.toDate().isAfter(start) && el.date!.toDate().isBefore(end)){
+         final currentDate = el.date!.toDate();
+
+         if (!count.containsKey(currentDate.weekday)) {
+           count[currentDate.weekday] = 1;
+         } else {
+           count[currentDate.weekday] = count[currentDate.weekday]! + 1;
+         }
+       }
+
+       data.add(
+          UsageHistoryItemData(
+             isEntrance: (el.type == 'enter') || false,
+             nfc: el.serialNumber!,
+             date: el.date!.toDate().toString(),
+         )
+       );
+     }
+    }catch (e){
+      // TODO: Throw error
+    }
+
+    chartData = [];
+    final dateNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+    for (var i = 1; i <= 7; i++){
+      var c = count.containsKey(i) ? count[i] : 0;
+
+      chartData.add(
+        ChartData(
+          dateNames[i],
+          c as double,
+        )
+      );
+    }
+
+    setState(() {
+      isLoading = false;
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
 
-    List<UsageHistoryItemData> data = [
-      const UsageHistoryItemData(
-          isEntrance: true, nfc: '04 9C 64 D2 45 2B 80', date: '06/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: false, nfc: '04 9C 64 D2 45 2B 80', date: '06/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: true, nfc: '04 9C 64 D2 45 2B 80', date: '09/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: false, nfc: '04 9C 64 D2 45 2B 80', date: '09/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: true, nfc: '04 9C 64 D2 45 2B 80', date: '10/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: false, nfc: '04 9C 64 D2 45 2B 80', date: '10/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: true, nfc: '04 9C 64 D2 45 2B 80', date: '11/08/2023'),
-      const UsageHistoryItemData(
-          isEntrance: false, nfc: '04 9C 64 D2 45 2B 80', date: '11/08/2023'),
-    ];
+    if (isLoading) {
+      return Scaffold(
+        body: Center(
+            child: LoadingAnimationWidget.waveDots(color: purple, size: 100)
+        ),
+      );
+    }
 
     List<Widget> history = [];
     for (int i = 0; i < data.length; i++) {
@@ -41,7 +102,8 @@ class DashboardScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: AppBar(
-        title: SearchBar(
+        backgroundColor: Colors.transparent,
+        /*title: SearchBar(
             hintText: 'Search...',
             hintStyle: MaterialStateProperty.all<TextStyle>(const TextStyle(
               color: transSeablue,
@@ -59,7 +121,7 @@ class DashboardScreen extends StatelessWidget {
               ),
             )),
         centerTitle: true,
-        backgroundColor: Colors.transparent,
+       backgroundColor: Colors.transparent,*/
       ),
       body: ListView(children: [
         Column(
@@ -82,7 +144,8 @@ class DashboardScreen extends StatelessWidget {
                   primaryYAxis: NumericAxis(),
                   series: <ChartSeries>[
                     StackedLineSeries<ChartData, String>(
-                      dataSource: <ChartData>[
+                      dataSource: chartData,
+                      /*dataSource: <ChartData>[
                         ChartData('Mon', 3),
                         ChartData('Tue', 5),
                         ChartData('Wed', 2),
@@ -90,7 +153,7 @@ class DashboardScreen extends StatelessWidget {
                         ChartData('Fri', 3),
                         ChartData('Sat', 1),
                         ChartData('Sun', 2),
-                      ],
+                      ],*/
                       xValueMapper: (ChartData data, _) => data.month,
                       yValueMapper: (ChartData data, _) => data.value,
                       name: 'Week',
