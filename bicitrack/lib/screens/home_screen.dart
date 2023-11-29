@@ -31,6 +31,9 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
+              /*
+              COMMENTED, NOT DELETED FOR QUICK CHANGES/TESTING
+
               ElevatedButton(
                 onPressed: () {
                   Navigator.push(context, MaterialPageRoute(
@@ -45,6 +48,7 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
+              */
               ElevatedButton(
                 onPressed: () {
                   Navigator.pushNamed(context, '/dashboard');
