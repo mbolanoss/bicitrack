@@ -1,11 +1,14 @@
+import 'package:bicitrack/screens/bicycle_view.dart';
 import 'package:flutter/material.dart';
 
 class ScanningSuccessfulScreen extends StatelessWidget {
-  const ScanningSuccessfulScreen({super.key});
+  final String serialNumber;
+  const ScanningSuccessfulScreen({super.key, required this.serialNumber});
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
 
     return SafeArea(
       child: Scaffold(
@@ -17,14 +20,11 @@ class ScanningSuccessfulScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   height: screenSize.height * 0.1,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.center,
                     child: Text(
                       'Entrada Registrada',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: textTheme.displayMedium,
                     ),
                   ),
                 ),
@@ -50,13 +50,12 @@ class ScanningSuccessfulScreen extends StatelessWidget {
                 SizedBox(height: screenSize.height * 0.05),
                 SizedBox(
                   height: screenSize.height * 0.1,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.center,
                     child: Text(
-                      'Etiqueta NFC registrada correctamente',
-                      style: TextStyle(
-                        fontSize: 18.0,
-                      ),
+                      'Registro realizado correctamente',
+                      style: textTheme.displayMedium,
+                      textAlign: TextAlign.center, // Alinear el texto al centro
                     ),
                   ),
                 ),
@@ -71,12 +70,17 @@ class ScanningSuccessfulScreen extends StatelessWidget {
                             backgroundColor: const Color(0xFF2BA84A),
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () {},
-                          child: const Text(
+                          onPressed: () {
+                            Navigator.push(context,
+                                MaterialPageRoute(builder: (context) {
+                              return BicycleScreen(
+                                serialNumber: serialNumber,
+                              );
+                            }));
+                          },
+                          child: Text(
                             'Consultar',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                            ),
+                            style: textTheme.labelLarge,
                           ),
                         ),
                       ),
@@ -93,12 +97,13 @@ class ScanningSuccessfulScreen extends StatelessWidget {
                             backgroundColor: const Color(0xFF086375),
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () {},
-                          child: const Text(
+                          onPressed: () {
+                            Navigator.popAndPushNamed(
+                                context, '/ready_to_scan');
+                          },
+                          child: Text(
                             'Nuevo Registro',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                            ),
+                            style: textTheme.labelLarge,
                           ),
                         ),
                       ),

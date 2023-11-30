@@ -1,3 +1,5 @@
+import 'package:bicitrack/models/bike.dart';
+import 'package:bicitrack/services/bike_service.dart';
 import 'package:flutter/material.dart';
 import 'package:qr_code_scanner/qr_code_scanner.dart';
 
@@ -10,6 +12,10 @@ class ReadyToScanQRScreen extends StatefulWidget {
 
 class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
   bool buttonsEnabled = true;
+  bool scanningEnabled = false;
+  bool processingScan = false;
+  late String typeOfScan;
+  final firestoreService = BikeService();
 
   final GlobalKey qrKey = GlobalKey(debugLabel: 'QR');
   Barcode? result;
@@ -17,12 +23,14 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
   void disableButtons() {
     setState(() {
       buttonsEnabled = false;
+      scanningEnabled = true;
     });
   }
 
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
 
     return SafeArea(
       child: Scaffold(
@@ -38,10 +46,7 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
                     alignment: Alignment.center,
                     child: Text(
                       buttonsEnabled ? 'Listo para escanear!' : 'Escaneando...',
-                      style: const TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: textTheme.displayMedium,
                     ),
                   ),
                 ),
@@ -49,7 +54,7 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
                 Container(
                   width: screenSize.height * 0.4,
                   height: screenSize.height * 0.4,
-                  decoration: BoxDecoration(
+                  decoration: const BoxDecoration(
                     color: Colors.white,
                   ),
                   child: QRView(
@@ -73,9 +78,8 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
                       buttonsEnabled
                           ? 'Acerca tu dispositivo al código QR'
                           : 'Escaneando código QR...',
-                      style: const TextStyle(
-                        fontSize: 18.0,
-                      ),
+                      style: textTheme.displayMedium,
+                      textAlign: TextAlign.center,
                     ),
                   ),
                 ),
@@ -94,14 +98,12 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
                           onPressed: buttonsEnabled
                               ? () {
                                   disableButtons();
-                                  // Puedes realizar acciones adicionales según sea necesario
+                                  typeOfScan = 'enter';
                                 }
                               : null,
-                          child: const Text(
+                          child: Text(
                             'Entrada',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                            ),
+                            style: textTheme.labelLarge,
                           ),
                         ),
                       ),
@@ -115,14 +117,12 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
                           onPressed: buttonsEnabled
                               ? () {
                                   disableButtons();
-                                  // Puedes realizar acciones adicionales según sea necesario
+                                  typeOfScan = 'exit';
                                 }
                               : null,
-                          child: const Text(
+                          child: Text(
                             'Salida',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                            ),
+                            style: textTheme.labelLarge,
                           ),
                         ),
                       ),
@@ -138,13 +138,28 @@ class _ReadyToScanQRScreenState extends State<ReadyToScanQRScreen> {
   }
 
   void _onQRViewCreated(QRViewController controller) {
-    controller.scannedDataStream.listen((scanData) {
-      setState(() {
-        result = scanData;
-      });
+    controller.scannedDataStream.listen((scanData) async {
+      if (scanningEnabled && !processingScan) {
+        setState(() {
+          result = scanData;
+          processingScan = true;
+        });
 
-      // Aquí puedes realizar alguna acción con el resultado del escaneo (result).
-      // Por ejemplo, mostrar un diálogo, navegar a otra pantalla, etc.
+        try {
+          final Bike bike =
+              await firestoreService.registerInOrOut(result!.code!, typeOfScan);
+          Future.microtask(() {
+            controller.dispose();
+            Navigator.popAndPushNamed(context, '/scanning_successful',
+                arguments: bike.serialNumber);
+          });
+        } catch (e) {
+          Future.microtask(() {
+            controller.dispose();
+            Navigator.popAndPushNamed(context, '/scanning_went_wrong');
+          });
+        }
+      }
     });
   }
 

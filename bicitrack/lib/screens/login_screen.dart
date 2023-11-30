@@ -108,6 +108,7 @@ class LoginForm extends StatelessWidget {
       );
       emailFieldController.clear();
       passFieldController.clear();
+      Navigator.pushReplacementNamed(context, '/');
     } on FirebaseAuthException {
       showDialog(
         context: context,

@@ -51,7 +51,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/',
+      initialRoute: '/login',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
@@ -64,7 +64,8 @@ class MyApp extends StatelessWidget {
         '/register_bike': (context) => const RegisterBikeScreen(),
         '/dashboard': (context) => const DashboardScreen(),
         '/ready_to_scan': (context) => const ReadyToScanQRScreen(),
-        '/scanning_successful': (context) => const ScanningSuccessfulScreen(),
+        '/scanning_successful': (context) => ScanningSuccessfulScreen(
+            serialNumber: ModalRoute.of(context)?.settings.arguments as String),
         '/scanning_went_wrong': (context) => const ScanningWentWrongScreen(),
       },
     );

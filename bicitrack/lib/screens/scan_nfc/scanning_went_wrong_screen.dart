@@ -6,6 +6,7 @@ class ScanningWentWrongScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final screenSize = MediaQuery.of(context).size;
+    final textTheme = Theme.of(context).textTheme;
 
     return SafeArea(
       child: Scaffold(
@@ -17,14 +18,11 @@ class ScanningWentWrongScreen extends StatelessWidget {
               children: [
                 SizedBox(
                   height: screenSize.height * 0.1,
-                  child: const Align(
+                  child: Align(
                     alignment: Alignment.center,
                     child: Text(
                       'Algo Salió Mal',
-                      style: TextStyle(
-                        fontSize: 24.0,
-                        fontWeight: FontWeight.bold,
-                      ),
+                      style: textTheme.displayMedium,
                     ),
                   ),
                 ),
@@ -65,11 +63,10 @@ class ScanningWentWrongScreen extends StatelessWidget {
                       child: Text(
                         'La etiqueta escaneada no se encuentra registrada en el sistema',
                         style: TextStyle(
-                          fontSize: 18.0,
+                          fontSize: 20.0,
                           color: Colors.white,
                         ),
-                        textAlign:
-                            TextAlign.center, // Alineación de texto centrada
+                        textAlign: TextAlign.center,
                       ),
                     ),
                   ),
@@ -86,12 +83,13 @@ class ScanningWentWrongScreen extends StatelessWidget {
                             backgroundColor: const Color(0xFF2BA84A),
                             foregroundColor: Colors.white,
                           ),
-                          onPressed: () {},
-                          child: const Text(
+                          onPressed: () {
+                            Navigator.popAndPushNamed(
+                                context, '/ready_to_scan');
+                          },
+                          child: Text(
                             'Intentar de nuevo',
-                            style: TextStyle(
-                              fontSize: 22.0,
-                            ),
+                            style: textTheme.labelLarge,
                           ),
                         ),
                       ),

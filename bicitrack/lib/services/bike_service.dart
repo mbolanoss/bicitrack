@@ -22,35 +22,41 @@ class BikeService {
         .where('serialNumber', isEqualTo: serialNumber)
         .get();
 
-    if (bikesThatMatchSerialNumberRaw.size == 0) throw Exception('Bike not found!');
+    if (bikesThatMatchSerialNumberRaw.size == 0)
+      throw Exception('Bike not found!');
 
     return Bike.fromJSON(bikesThatMatchSerialNumberRaw.docs[0].data());
   }
 
-  Future<BikeOwnerAndBike> getBikeAndOwnerBySerialNumber(String serialNumber) async {
+  Future<BikeOwnerAndBike> getBikeAndOwnerBySerialNumber(
+      String serialNumber) async {
     final bike = await getBikeBySerialNumber(serialNumber);
 
     final bikeOwnersThatMatchSerialNumberRaw = await _firestore
-      .collection('bike_owners')
-      .where('idCard', isEqualTo: bike.ownerIdCard)
-      .get();
+        .collection('bike_owners')
+        .where('idCard', isEqualTo: bike.ownerIdCard)
+        .get();
 
-    if (bikeOwnersThatMatchSerialNumberRaw.size == 0) throw Exception('Bike owner not found!');
+    if (bikeOwnersThatMatchSerialNumberRaw.size == 0)
+      throw Exception('Bike owner not found!');
 
-    final bikeOwner = BikeOwner.fromJSON(bikeOwnersThatMatchSerialNumberRaw.docs[0].data());
+    final bikeOwner =
+        BikeOwner.fromJSON(bikeOwnersThatMatchSerialNumberRaw.docs[0].data());
 
     return BikeOwnerAndBike(bikeOwner, bike);
   }
 
   Future<void> updateBike(BikeOwner bikeOwner) async {
     final bikeOwnersThatMatchIdCardRaw = await _firestore
-      .collection('bike_owners')
-      .where('idCard', isEqualTo: bikeOwner.idCard)
-      .get();
+        .collection('bike_owners')
+        .where('idCard', isEqualTo: bikeOwner.idCard)
+        .get();
 
-    if (bikeOwnersThatMatchIdCardRaw.size == 0) throw Exception('Bike owner not found!');
+    if (bikeOwnersThatMatchIdCardRaw.size == 0)
+      throw Exception('Bike owner not found!');
 
-    await bikeOwnersThatMatchIdCardRaw.docs[0].reference.update(bikeOwner.toJSON());
+    await bikeOwnersThatMatchIdCardRaw.docs[0].reference
+        .update(bikeOwner.toJSON());
   }
 
   Future<bool> checkBikeExistsBySerialNumber(String serialNumber) async {
@@ -62,7 +68,7 @@ class BikeService {
     return bikesThatMatchSerialNumber.size == 1;
   }
 
-  Future<void> deleteBike(String serialNumber) async{
+  Future<void> deleteBike(String serialNumber) async {
     final bikesThatMatchSerialNumberRaw = await _firestore
         .collection('bikes')
         .where('serialNumber', isEqualTo: serialNumber)
@@ -72,12 +78,25 @@ class BikeService {
       doc.reference.delete();
     });
   }
-  
+
   Future<Iterable<InNOut>> getAllInNOuts() async {
-    final allInNOuts = await _firestore
-        .collection('in_n_out')
-        .get();
+    final allInNOuts = await _firestore.collection('in_n_out').get();
 
     return allInNOuts.docs.map((e) => InNOut.fromJSON(e.data()));
+  }
+
+  Future<Bike> registerInOrOut(String bikeId, String type) async {
+    var bikeData = await _firestore.collection('bikes').doc(bikeId).get();
+
+    if (!bikeData.exists) {
+      throw Exception('Bike owner not found!');
+    } else {
+      final bikeJSON = bikeData.data() as Map<String, dynamic>;
+      final bike = Bike.fromJSON(bikeJSON);
+      final inNOut = InNOut(
+          serialNumber: bike.serialNumber, date: Timestamp.now(), type: type);
+      await _firestore.collection('in_n_out').add(inNOut.toJSON());
+      return bike;
+    }
   }
 }

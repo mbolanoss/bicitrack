@@ -21,57 +21,55 @@ class _DashboardScreenState extends State<DashboardScreen> {
 
   final firestoreService = BikeService();
 
-  void initState(){
+  void initState() {
     super.initState();
     fetchBikeData(context);
   }
 
   void fetchBikeData(BuildContext context) async {
     Map<int, int> count = {};
-    try{
-     final rawInNOuts = await firestoreService.getAllInNOuts();
-     data = [];
+    try {
+      final rawInNOuts = await firestoreService.getAllInNOuts();
+      data = [];
 
-    final today = DateTime.now();
-    final difference = today.weekday - 1;
+      final today = DateTime.now();
+      final difference = today.weekday - 1;
 
-     final start = today.subtract(Duration(days: difference));
-     final end = start.add(const Duration(days: 7));
+      final start = today.subtract(Duration(days: difference));
+      final end = start.add(const Duration(days: 7));
 
-     for (final el in rawInNOuts){
-       if (el.date != null && el.date!.toDate().isAfter(start) && el.date!.toDate().isBefore(end)){
-         final currentDate = el.date!.toDate();
+      for (final el in rawInNOuts) {
+        if (el.date != null &&
+            el.date!.toDate().isAfter(start) &&
+            el.date!.toDate().isBefore(end)) {
+          final currentDate = el.date!.toDate();
 
-         if (!count.containsKey(currentDate.weekday)) {
-           count[currentDate.weekday] = 1;
-         } else {
-           count[currentDate.weekday] = count[currentDate.weekday]! + 1;
-         }
-       }
+          if (!count.containsKey(currentDate.weekday)) {
+            count[currentDate.weekday] = 1;
+          } else {
+            count[currentDate.weekday] = count[currentDate.weekday]! + 1;
+          }
+        }
 
-       data.add(
-          UsageHistoryItemData(
-             isEntrance: (el.type == 'enter') || false,
-             nfc: el.serialNumber!,
-             date: el.date!.toDate().toString(),
-         )
-       );
-     }
-    }catch (e){
+        data.add(UsageHistoryItemData(
+          isEntrance: (el.type == 'enter') || false,
+          nfc: el.serialNumber!,
+          date: el.date!.toDate().toString(),
+        ));
+      }
+    } catch (e) {
       // TODO: Throw error
     }
 
     chartData = [];
     final dateNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-    for (var i = 1; i <= 7; i++){
-      var c = count.containsKey(i) ? count[i] : 0;
+    for (var i = 1; i <= 7; i++) {
+      var c = count.containsKey(i) ? count[i]!.toDouble() : 0.0;
 
-      chartData.add(
-        ChartData(
-          dateNames[i],
-          c as double,
-        )
-      );
+      chartData.add(ChartData(
+        dateNames[i],
+        c,
+      ));
     }
 
     setState(() {
@@ -86,8 +84,7 @@ class _DashboardScreenState extends State<DashboardScreen> {
     if (isLoading) {
       return Scaffold(
         body: Center(
-            child: LoadingAnimationWidget.waveDots(color: purple, size: 100)
-        ),
+            child: LoadingAnimationWidget.waveDots(color: purple, size: 100)),
       );
     }
 

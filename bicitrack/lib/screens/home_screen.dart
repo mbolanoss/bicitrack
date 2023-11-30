@@ -67,26 +67,6 @@ class HomeScreen extends StatelessWidget {
               const SizedBox(
                 height: 20,
               ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/scanning_successful');
-                },
-                child: const Text('Entry Registered'),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pushNamed(context, '/scanning_went_wrong');
-                },
-                child: const Text(
-                  'Wrong scan',
-                ),
-              ),
-              const SizedBox(
-                height: 20,
-              ),
             ],
           ),
         ),

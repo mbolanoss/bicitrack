@@ -8,8 +8,7 @@ import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 
 class BicycleScreen extends StatefulWidget {
-  late String serialNumber;
-
+  final String serialNumber;
   BicycleScreen({super.key, required this.serialNumber});
 
   @override
@@ -17,10 +16,9 @@ class BicycleScreen extends StatefulWidget {
 }
 
 class _BicycleScreenState extends State<BicycleScreen> {
-  late String serialNumber;
-
   _BicycleScreenState(this.serialNumber);
 
+  final String serialNumber;
   final firestoreService = BikeService();
 
   bool loading = true;
@@ -28,67 +26,68 @@ class _BicycleScreenState extends State<BicycleScreen> {
   String idCard = "";
   String phoneNumber = "";
   String email = "";
+  BikeOwnerAndBike? bikeAndOwner;
 
-  void initState(){
+  void initState() {
     super.initState();
     fetchBikeData(context);
   }
 
   void fetchBikeData(BuildContext context) async {
-    late BikeOwnerAndBike bikeAndOwner;
+    try {
+      bikeAndOwner =
+          await firestoreService.getBikeAndOwnerBySerialNumber(serialNumber);
+      final bikeOwner = bikeAndOwner!.bikeOwner;
 
-    try{
-      bikeAndOwner = await firestoreService.getBikeAndOwnerBySerialNumber(serialNumber);
-    }catch(e){
-      final textTheme = Theme.of(context).textTheme;
-      showDialog(context: context, builder: (context) {
-        return AlertDialog(
-          backgroundColor: red,
-          title: Container(
-            padding: const EdgeInsets.all(15),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.all(
-                Radius.circular(20),
-              ),
-            ),
-            child: Text(
-              'Bicicleta no registrada!',
-              style: textTheme.displayMedium,
-              textAlign: TextAlign.center,
-            ),
-          ),
-          actions: [
-            ElevatedButton(onPressed: () {
-              Navigator.pop(context);
-              if (Navigator.canPop(context)) Navigator.pop(context);
-            }, child: Text('Ok'))
-          ],
-          actionsAlignment: MainAxisAlignment.center,
-        );
+      setState(() {
+        loading = false;
+        name = bikeOwner.name.toString();
+        idCard = bikeOwner.idCard.toString();
+        phoneNumber = bikeOwner.phoneNumber.toString();
+        email = bikeOwner.email.toString();
       });
+    } catch (e) {
+      final textTheme = Theme.of(context).textTheme;
+      showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              backgroundColor: red,
+              title: Container(
+                padding: const EdgeInsets.all(15),
+                decoration: const BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.all(
+                    Radius.circular(20),
+                  ),
+                ),
+                child: Text(
+                  'Bicicleta no registrada!',
+                  style: textTheme.displayMedium,
+                  textAlign: TextAlign.center,
+                ),
+              ),
+              actions: [
+                ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      if (Navigator.canPop(context)) Navigator.pop(context);
+                    },
+                    child: Text('Ok'))
+              ],
+              actionsAlignment: MainAxisAlignment.center,
+            );
+          });
     }
-    final bikeOwner = bikeAndOwner.bikeOwner;
-
-    setState(() {
-      loading = false;
-      name = bikeOwner.name.toString();
-      idCard = bikeOwner.idCard.toString();
-      phoneNumber = bikeOwner.phoneNumber.toString();
-      email = bikeOwner.email.toString();
-    });
   }
 
-  void redirectToEdit(BuildContext context){
-    Navigator.push(context,
-    MaterialPageRoute(
-        builder: (ctx) {
-          return EditBycicleView(serialNumber: serialNumber);
-        }
-    ));
+  void redirectToEdit(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (ctx) {
+      return EditBycicleView(serialNumber: serialNumber);
+    }));
   }
 
-  void handleDeletePressed(BuildContext context){
+  void handleDeletePressed(BuildContext context) {
     showDialog(
         context: context,
         builder: (_) {
@@ -119,34 +118,39 @@ class _BicycleScreenState extends State<BicycleScreen> {
             actions: [
               ElevatedButton(
                 onPressed: () async {
-                  try{
+                  try {
                     await firestoreService.deleteBike(serialNumber);
-                  }catch (e){
-                    showDialog(context: context, builder: (context) {
-                      return AlertDialog(
-                        backgroundColor: red,
-                        title: Container(
-                          padding: const EdgeInsets.all(15),
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.all(
-                              Radius.circular(20),
+                  } catch (e) {
+                    showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            backgroundColor: red,
+                            title: Container(
+                              padding: const EdgeInsets.all(15),
+                              decoration: const BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                  Radius.circular(20),
+                                ),
+                              ),
+                              child: Text(
+                                'Error: Registro no eliminado',
+                                style: textTheme.displayMedium,
+                                textAlign: TextAlign.center,
+                              ),
                             ),
-                          ),
-                          child: Text(
-                            'Error: Registro no eliminado',
-                            style: textTheme.displayMedium,
-                            textAlign: TextAlign.center,
-                          ),
-                        ),
-                        actions: [
-                          ElevatedButton(onPressed: () {
-                            Navigator.pop(context);
-                            if (Navigator.canPop(context)) Navigator.pop(context);
-                            }, child: Text('Ok'))
-                        ],
-                      );
-                    });
+                            actions: [
+                              ElevatedButton(
+                                  onPressed: () {
+                                    Navigator.pop(context);
+                                    if (Navigator.canPop(context))
+                                      Navigator.pop(context);
+                                  },
+                                  child: Text('Ok'))
+                            ],
+                          );
+                        });
                   }
 
                   Navigator.pop(context);
@@ -176,8 +180,7 @@ class _BicycleScreenState extends State<BicycleScreen> {
             actionsAlignment: MainAxisAlignment.center,
             actionsPadding: EdgeInsets.symmetric(vertical: 20, horizontal: 10),
           );
-        }
-    );
+        });
   }
 
   @override
@@ -187,8 +190,7 @@ class _BicycleScreenState extends State<BicycleScreen> {
     if (loading) {
       return Scaffold(
         body: Center(
-            child: LoadingAnimationWidget.waveDots(color: purple, size: 100)
-        ),
+            child: LoadingAnimationWidget.waveDots(color: purple, size: 100)),
       );
     }
 
@@ -198,12 +200,9 @@ class _BicycleScreenState extends State<BicycleScreen> {
         surfaceTintColor: MaterialStatePropertyAll(Colors.transparent),
         padding: MaterialStatePropertyAll(EdgeInsets.zero),
         iconColor: MaterialStatePropertyAll(Colors.black),
-        textStyle: MaterialStatePropertyAll(
-            TextStyle(
-              color: Colors.black,
-            )
-        )
-    );
+        textStyle: MaterialStatePropertyAll(TextStyle(
+          color: Colors.black,
+        )));
 
     return Scaffold(
       appBar: AppBar(
@@ -217,8 +216,18 @@ class _BicycleScreenState extends State<BicycleScreen> {
                 child: HeaderPill(text: serialNumber),
               ),
             ),
-            ElevatedButton(onPressed: () {redirectToEdit(context);}, style: commonButtonStyling, child: const Icon(Icons.edit)),
-            ElevatedButton(onPressed: () {handleDeletePressed(context);}, style: commonButtonStyling, child: const Icon(Icons.delete)),
+            ElevatedButton(
+                onPressed: () {
+                  redirectToEdit(context);
+                },
+                style: commonButtonStyling,
+                child: const Icon(Icons.edit)),
+            ElevatedButton(
+                onPressed: () {
+                  handleDeletePressed(context);
+                },
+                style: commonButtonStyling,
+                child: const Icon(Icons.delete)),
           ],
         ),
         centerTitle: true,
@@ -235,7 +244,9 @@ class _BicycleScreenState extends State<BicycleScreen> {
                 height: 216,
                 width: 216,
                 color: purple,
-                child: Image(image: NetworkImage("https://firebasestorage.googleapis.com/v0/b/bicitrack-de168.appspot.com/o/bikes_photos%2F$idCard-$serialNumber?alt=media")),
+                child: Image(
+                    image: NetworkImage(
+                        "https://firebasestorage.googleapis.com/v0/b/bicitrack-de168.appspot.com/o/bikes_photos%2F$idCard-$serialNumber?alt=media")),
               ),
             )),
             SizedBox(height: screenSize.height * 0.03),
@@ -250,14 +261,10 @@ class _BicycleScreenState extends State<BicycleScreen> {
                 child: OwnerData(
                   isEditMode: false,
                   data: [
-                    OwnerDataUnit(
-                        icon: Icons.person, content: name),
-                    OwnerDataUnit(
-                        icon: Icons.assignment_ind, content: idCard),
+                    OwnerDataUnit(icon: Icons.person, content: name),
+                    OwnerDataUnit(icon: Icons.assignment_ind, content: idCard),
                     OwnerDataUnit(icon: Icons.phone, content: phoneNumber),
-                    OwnerDataUnit(
-                        icon: Icons.email_rounded,
-                        content: email),
+                    OwnerDataUnit(icon: Icons.email_rounded, content: email),
                   ],
                 )),
           ],
