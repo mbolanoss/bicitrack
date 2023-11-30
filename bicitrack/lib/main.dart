@@ -4,6 +4,7 @@ import 'package:bicitrack/screens/dashboard.dart';
 import 'package:bicitrack/screens/edit_bycicle_view.dart';
 import 'package:bicitrack/screens/home_screen.dart';
 import 'package:bicitrack/screens/register_bike/register_bike_owner.dart';
+import 'package:bicitrack/screens/scan_nfc/ready_to_scan_qr_screen.dart';
 import 'package:bicitrack/screens/scan_nfc/ready_to_scan_screen.dart';
 import 'package:bicitrack/screens/scan_nfc/scanning_successful_screen.dart';
 import 'package:bicitrack/screens/scan_nfc/scanning_went_wrong_screen.dart';
@@ -50,7 +51,7 @@ class MyApp extends StatelessWidget {
       title: 'Flutter Demo',
       theme: lightTheme,
       // Cambiar ruta inicial segun sea necesario
-      initialRoute: '/wrapper',
+      initialRoute: '/',
       // Aqui van las rutas de todas las ventanas
       routes: {
         '/': (context) => const HomeScreen(),
@@ -62,7 +63,7 @@ class MyApp extends StatelessWidget {
         '/register_bike_owner': (context) => RegisterBikeOwnerScreen(),
         '/register_bike': (context) => const RegisterBikeScreen(),
         '/dashboard': (context) => const DashboardScreen(),
-        '/ready_to_scan': (context) => const ReadyToScanScreen(),
+        '/ready_to_scan': (context) => const ReadyToScanQRScreen(),
         '/scanning_successful': (context) => const ScanningSuccessfulScreen(),
         '/scanning_went_wrong': (context) => const ScanningWentWrongScreen(),
       },
